@@ -1,25 +1,59 @@
 #include <iostream>
 #include <string.h>
-#include<windows.h>
 using namespace std;
+class Thongtin{
+	private:
+		string Ngaysinh,SDT,Diachi;
+	public:
+		string getns()		//HAM LAY NGAY SINH
+		{
+			return Ngaysinh;
+		}
+		void Nhapthongtin()
+		{
+			fflush(stdin);
+			cout << endl <<"Nhap ngay sinh: ";
+			getline(cin,Ngaysinh);
+			cout << endl << "Nhap SDT: " ;
+			getline(cin,SDT);
+			cout << endl <<"Nhap dia chi: ";
+			getline(cin,Diachi);
+		}
+		void Xuatthongtin()
+		{
+			cout <<"Ngay sinh: " << Ngaysinh << endl ;
+			cout << "So dien thoai: " << SDT << endl ;
+			cout << "Dia chi: " << Diachi <<endl;
+		}
+		
+};
 //TODO: CLASS KHACH HANG
-class KhachHang{
+class KhachHang: private Thongtin{
 	private:
 		int SoLuong;
-		string MKH, SDT, NgayMua, MatHang[20];
+		string MKH,NgayMua, MatHang[20];
 	public:
+		string getMKH();		//HAM LAY MA KHACH HANG
+		string getnm();			//HAM LAY NGAY MUA
 		void NhapKhachHang();	// HAM NHAP 1 KHACH HANG
 		void XuatKhachHang();	// HAM IN 1 KHACH HANG
 		void GiaThanhToan();	//HAM DINH GIA MAT HANG
-		string getMKH();		//HAM LAY MA KHACH HANG
 };
+string KhachHang::getMKH()
+{
+	return MKH;
+}
+string KhachHang::getnm()
+{
+	return NgayMua;
+}
 void KhachHang::NhapKhachHang()
 {
 		fflush(stdin);
-		cout << endl <<"Nhap ma khach hang: ";
+		cout << "Nhap ma khach hang: ";
 		getline(cin,MKH);
-		cout << endl << "Nhap SDT: " ;
-		getline(cin,SDT);
+		Nhapthongtin();
+		fflush(stdin);
 		cout << endl << "Nhap ngay mua: " ;
 		getline(cin,NgayMua);
 		cout << endl << "Nhap so luong " ;
@@ -32,20 +66,19 @@ void KhachHang::NhapKhachHang()
 		}
 }
 void KhachHang::XuatKhachHang() {
-	cout <<endl<<"Ma khach hang: " << MKH << endl ;
-	cout << "So dien thoai: " << SDT << endl ;
+	cout << endl <<"Ma khach hang: "<<MKH<<endl;
+	Xuatthongtin();
 	cout << "Ngay mua hang: " << NgayMua << endl ;
 	cout << "So luong: " << SoLuong << endl ;
 	for (int i=1; i<=SoLuong; i++)
 	{
 			cout << "Ten mon " << i << ":" << MatHang[i] << endl;
 	}
-	cout <<"Gia thanh toan: ";
 	GiaThanhToan();
 }
 void KhachHang::GiaThanhToan()
 {
-	string x1="Cafe den",x2="Cold brew",x3="Bac siu",x4="Cafe sua",x5="Cappuccino",x6="Americano",x7="Hong Tra";
+	string x1="Cafe den",x2="Cold brew",x3="Bac siu",x4="Cafe sua",x5="Cappuccino",x6="Americano",x7="Tra matcha";
 	string x8="Tra vai",x9="Tra hat sen",x10="Hong tra latte",x11="Tra dao cam sa",x12="Tra sua mac ca",x13="Tra viet quoc dau thom",x14="Tra sua oolong";
 	float *Gia=new float[SoLuong];		// cap phat bo nho dong cho mang gia
 	float Tong=0;
@@ -55,41 +88,46 @@ void KhachHang::GiaThanhToan()
 		{
 			Gia[i]=35000;
 		}
-		if(MatHang[i].compare(x3)==0||MatHang[i].compare(x4)==0)
+		else if(MatHang[i].compare(x3)==0||MatHang[i].compare(x4)==0)
 		{
 			Gia[i]=38000;
 		}
-		if(MatHang[i].compare(x5)==0||MatHang[i].compare(x6)==0)
+		else if(MatHang[i].compare(x5)==0||MatHang[i].compare(x6)==0)
 		{
 			Gia[i]=40000;
 		}
-		if(MatHang[i].compare(x7)==0||MatHang[i].compare(x8)==0)
+		else if(MatHang[i].compare(x7)==0||MatHang[i].compare(x8)==0)
 		{
 			Gia[i]=55000;
 		}
-		if(MatHang[i].compare(x9)==0||MatHang[i].compare(x10)==0)
+		else if(MatHang[i].compare(x9)==0||MatHang[i].compare(x10)==0)
 		{
 			Gia[i]=50000;
 		}
-		if(MatHang[i].compare(x11)==0||MatHang[i].compare(x12)==0)
+		else if(MatHang[i].compare(x11)==0||MatHang[i].compare(x12)==0)
 		{
 			Gia[i]=59000;
 		}
-		if(MatHang[i].compare(x13)==0||MatHang[i].compare(x14)==0)
+		else
 		{
 			Gia[i]=60000;
 		}
-		for (int i=1;i<=SoLuong;i++)		//cau lenh tinh tong trong truong hop 1 nguoi mua 2 mat hang khac nhau
-		{
-			Tong=Tong+Gia[i];
-		}
 	}
-	cout<< Tong <<"d";
-	delete[] Gia;		//giai phong bo nho
-}
-string KhachHang::getMKH()
-{
-	return MKH;
+	for (int i=0;i<=SoLuong;i++)		//cau lenh tinh tong trong truong hop 1 nguoi mua 2 mat hang khac nhau
+		{
+			Tong += Gia[i];
+			
+		}
+	if(getns().compare(getnm())==0)
+	{
+		cout<<"Uu dai 15% nhan dip sinh nhat";
+		cout<<endl<<"Gia thanh toan: "<<Tong-((Tong*15)/100);
+	}
+	else
+	{
+		cout<<endl<<"Gia thanh toan: "<<Tong <<"d";
+	}
+	delete [] Gia;
 }
 //STRUCT NODE
 struct Node{
@@ -166,7 +204,7 @@ void menu(SList1 &l)
 	cout<<"\t=\t\tNhap 1: Nhap khach hang.\t\t="<<endl;
 	cout<<"\t=\t\tNhap 2: Hoa don cua mot khach.\t\t="<<endl;
 	cout<<"\t========================================================="<<endl;
-	cout<<"\t\t\t\Nhap lua chon: ";
+	cout<<"\t\t\tNhap lua chon: ";
 	while (1)
 	{
 		cout<<endl<<"Nhap chuc nang: ";
