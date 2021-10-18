@@ -79,7 +79,7 @@ void KhachHang::XuatKhachHang() {
 void KhachHang::GiaThanhToan()
 {
 	string x1="Cafe den",x2="Cold brew",x3="Bac siu",x4="Cafe sua",x5="Cappuccino",x6="Americano",x7="Tra matcha";
-	string x8="Tra vai",x9="Tra hat sen",x10="Hong tra latte",x11="Tra dao cam sa",x12="Tra sua mac ca",x13="Tra viet quoc dau thom",x14="Tra sua oolong";
+	string x8="Tra vai",x9="Tra hat sen",x10="Hong tra latte",x11="Tra dao cam sa",x12="Tra sua mac ca",x13="Tra viet quoc",x14="Tra sua oolong";
 	float *Gia=new float[SoLuong];		// cap phat bo nho dong cho mang gia
 	float Tong=0;
 	for (int i=1;i<=SoLuong;i++)
@@ -222,6 +222,25 @@ void menu(SList1 &l)
 }
 //TODO: CLASS NGUYEN LIEU
 int main(){
+	cout<<"\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl;
+	cout<<"\t@                                                         @"<<endl;
+	cout<<"\t@                                                         @"<<endl;
+	cout<<"\t@          **     **  *****  **   **  **  **              @"<<endl;
+	cout<<"\t@          ** * * **  **     ** * **  **  **              @"<<endl;
+	cout<<"\t@          **  *  **  *****  **  ***  **  **              @"<<endl;
+	cout<<"\t@          **     **  **     **   **  **  **              @"<<endl;
+	cout<<"\t@          **     **  *****  **   **   ****               @"<<endl;
+	cout<<"\t@                                                         @"<<endl;
+	cout<<"\t@                                                         @"<<endl;
+	cout<<"\t@   Cafe den      :  35K           Cold brew     :   35K  @"<<endl;
+	cout<<"\t@   Bac siu       :  38K           Cafe sua      :   38K  @"<<endl;
+	cout<<"\t@   Cappuccino    :  40K           Americano     :   40K  @"<<endl;
+	cout<<"\t@   Tra matcha    :  55K           Tra vai       :   55K  @"<<endl;
+	cout<<"\t@   Tra hat sen   :  50K           Hong tra latte:   50K  @"<<endl;
+	cout<<"\t@   Tra dao cam sa:  59K           Tra sua mac ca:   59K  @"<<endl;
+	cout<<"\t@   Tra viet quoc :  60K           Tra sua oolong:   60K  @"<<endl;
+	cout<<"\t@                                                         @"<<endl;
+	cout<<"\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl<<endl<<endl;
 	SList1 l;
 	SList1rong(l);
 	menu(l);
