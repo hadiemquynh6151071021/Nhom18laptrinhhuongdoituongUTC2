@@ -35,8 +35,8 @@ class KhachHang: private Thongtin{
 	public:
 		string getMKH();		//HAM LAY MA KHACH HANG
 		string getnm();			//HAM LAY NGAY MUA
-		void NhapKhachHang();	// HAM NHAP 1 KHACH HANG
-		void XuatKhachHang();	// HAM IN 1 KHACH HANG
+		friend istream & operator >> (istream &is, KhachHang & k);	// HAM NHAP 1 KHACH HANG
+		friend ostream & operator << (ostream &os, KhachHang &k );	// HAM IN 1 KHACH HANG
 		void GiaThanhToan();	//HAM DINH GIA MAT HANG
 };
 string KhachHang::getMKH()
@@ -47,34 +47,35 @@ string KhachHang::getnm()
 {
 	return NgayMua;
 }
-void KhachHang::NhapKhachHang()
+istream & operator >> (istream &is, KhachHang & k)
 {
 		fflush(stdin);
 		cout << "Nhap ma khach hang: ";
-		getline(cin,MKH);
-		Nhapthongtin();
+		getline(cin,k.MKH);
+		k.Nhapthongtin();
 		fflush(stdin);
 		cout << endl << "Nhap ngay mua: " ;
-		getline(cin,NgayMua);
+		getline(cin,k.NgayMua);
 		cout << endl << "Nhap so luong " ;
-		cin >> SoLuong ;
-		for (int i=1;i<=SoLuong;i++)	// mat hang la kieu mang do 1 nguoi co the mua nhieu mon
+		cin >> k.SoLuong ;
+		for (int i=1;i<=k.SoLuong;i++)	// mat hang la kieu mang do 1 nguoi co the mua nhieu mon
 		{
 			fflush(stdin);
 			cout << endl << "Nhap mat hang " << i <<":";
-			getline(cin,MatHang[i]);
+			getline(cin,k.MatHang[i]);
 		}
 }
-void KhachHang::XuatKhachHang() {
-	cout << endl <<"Ma khach hang: "<<MKH<<endl;
-	Xuatthongtin();
-	cout << "Ngay mua hang: " << NgayMua << endl ;
-	cout << "So luong: " << SoLuong << endl ;
-	for (int i=1; i<=SoLuong; i++)
+ostream & operator << (ostream &os, KhachHang &k )
+{
+	cout << endl <<"Ma khach hang: "<<k.MKH<<endl;
+	k.Xuatthongtin();
+	cout << "Ngay mua hang: " << k.NgayMua << endl ;
+	cout << "So luong: " << k.SoLuong << endl ;
+	for (int i=1; i<=k.SoLuong; i++)
 	{
-			cout << "Ten mon " << i << ":" << MatHang[i] << endl;
+			cout << "Ten mon " << i << ":" << k.MatHang[i] << endl;
 	}
-	GiaThanhToan();
+	k.GiaThanhToan();
 }
 void KhachHang::GiaThanhToan()
 {
@@ -150,7 +151,7 @@ void SList1rong(SList1 &l){
 void Xuatds(SList1 l) {
 	Node* p = l.head;
 	while (p != NULL) {
-		(p->data).XuatKhachHang();
+		cout<<(p->data);
 		p = p->next;
 	}
 	cout << endl;
@@ -161,7 +162,7 @@ Node* Taonode1()
 {
 	KhachHang v;
 	Node* p = new Node;
-	v.NhapKhachHang();
+	cin>>v;
 	p->data = v ;	
 	p->next = NULL;	
 	return p;
@@ -191,7 +192,7 @@ void Hoadon(SList1 &l)
 	{
 		if(x.compare(p->data.getMKH())==0)
 		{
-			p->data.XuatKhachHang();
+			cout<<p->data;
 		}
 		p=p->next;
 	}
