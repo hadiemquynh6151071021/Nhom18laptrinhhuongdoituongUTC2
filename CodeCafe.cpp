@@ -204,6 +204,7 @@ void menu(SList1 &l)
 	cout<<"\t========================================================="<<endl;
 	cout<<"\t=\t\tNhap 1: Nhap khach hang.\t\t="<<endl;
 	cout<<"\t=\t\tNhap 2: Hoa don cua mot khach.\t\t="<<endl;
+	cout<<"\t=\t\tNhap 3: Thoat chuong trinh.\t\t="<<endl;
 	cout<<"\t========================================================="<<endl;
 	cout<<"\t\t\tNhap lua chon: ";
 	while (1)
@@ -218,6 +219,10 @@ void menu(SList1 &l)
 		if(luachon==2)
 		{
 			Hoadon(l);
+		}
+		if(luachon==3)
+		{
+			exit(0);
 		}
 	}
 }
