@@ -1,6 +1,9 @@
+#include<iostream>
+#include<iomanip>
+#include<string>
+using namespace std;
 #include <iostream>
 #include <string.h>
-using namespace std;
 class Thongtin{
 	private:
 		string Ngaysinh,SDT,Diachi;
@@ -202,18 +205,169 @@ void Hoadon(SList1 &l)
 		
 	}
 }
+//TODO: CLASS NGUYEN LIEU
+//NHANVIEN
+class NhanVien:private Thongtin{
+    private:
+        string name,loainhanvien;
+        int soluonggio;
+    public:
+    
+        friend istream & operator >> (istream &is, NhanVien & n);	// HAM NHAP 1 NHAN VIEN
+		friend ostream & operator << (ostream &os, NhanVien & n);	// HAM IN 1 NHAN VIEN
+        void tienluong1tuan();
+        string getname();
+
+};
+string NhanVien::getname(){
+    return name;
+}
+void NhanVien::tienluong1tuan(){
+    float ftienluong=1;
+    string a="full time";
+    string b="part time";
+    if(loainhanvien.compare(a)==0){
+        ftienluong=( 27000*soluonggio*7);
+       
+    }
+    else if(loainhanvien.compare(b)==0){
+        ftienluong=(17000*soluonggio*7);
+    }
+    cout<<endl<<"Tien luong:"<<ftienluong<<"d";
+ 
+    
+}
+
+
+istream& operator >> (istream &is, NhanVien & n){
+        fflush(stdin);
+        cout<<"\tNhap Ho va ten :";
+        getline(cin,n.name);
+        n.Nhapthongtin();
+        fflush(stdin);
+        cout<<"\tNhap loai nhan vien:";
+        getline(cin,n.loainhanvien);
+        cout<<"\tNhap so luong gio:";
+        cin>>n.soluonggio;
+        return is;
+}
+ostream& operator << (ostream &os, NhanVien & n){
+        cout<<"\t\t\tHo va ten :"<<n.name<<endl;
+        n.Xuatthongtin();
+        cout<<"\t\t\tLoai nhan vien:"<<n.loainhanvien<<endl;
+        cout<<"\t\t\tSo luong gio:"<<n.soluonggio<<endl;
+        return os;
+}
+//Struct Node
+struct Node3{
+    NhanVien data;
+    Node3* next;
+};
+struct SList3{
+        Node3* head;
+        Node3* tail;
+        long size;
+};
+//TAO DANH SACH RONG
+void SList3rong(SList3 &sl){
+    sl.head = NULL;
+    sl.tail = NULL;
+    sl.size = 0;
+
+}
+//TAO NOT MOI 
+Node3* TaoNode3(){
+    Node3 *p3 = new Node3 ;
+    NhanVien v;
+    cin>>v;
+    p3-> data = v;
+    p3-> next= NULL;
+    return p3;
+}
+void addLast(SList3 &sl , Node3*p3){
+    
+    if(sl.size == 0){
+       sl. head = p3 ;
+       sl. tail = p3;
+    }
+    else {
+        sl.tail ->next = p3;
+        sl.tail = p3 ;
+    }
+        sl.size ++;
+
+
+}
+void searchbyName(SList3 sl){
+    string fname;
+	fflush(stdin);
+    cout<<"Ten nhan vien muon tim :";
+    getline(cin,fname);
+    Node3*p3 = sl.head;
+    while ( p3!= NULL)
+        if(fname == p3-> data.getname()){
+              cout<<(p3->data);
+          cout<< std::setprecision(20);
+              system ("pause");
+    }
+    else{
+    cout <<"Khong tim thay nhan vien !!" <<endl;
+      p3 = p3-> next;
+    }
+	
+}
+void xuat (SList3 sl) {
+	Node3* p3 = sl.head;
+	int i=0;
+	cout<<endl<<"\t\t\t\tDANH SACH NHAN VIEN:";
+	while (p3 != NULL) {
+		cout<<endl<<"\t\t\t--------------------------------\n";
+		cout<<"\t\t\t\tNHAN VIEN "<<i+1<<endl;
+		cout<<(p3->data);
+		i++;
+		p3 = p3->next;
+	}
+	cout << endl;
+	delete p3;
+}
+   void wpay (SList3 sl){
+    string x;
+    fflush (stdin);
+    cout<<"\t\t\tNhap ten nhan vien :";
+    getline(cin,x);
+    Node3*p3 = sl.head;
+     while (p3 != NULL){
+           if(x.compare(p3->data.getname())==0)
+        {    
+            cout<< std::setprecision(20);
+            cout<<p3->data;
+            p3->data.tienluong1tuan();
+	 
+        
+        }
+		p3=p3->next;
+     }
+}
 //HAM MENU
-void menu(SList1 &l)
+void menu()
 {
 	int luachon;
+	SList1 l;
+	SList1rong(l);
+    SList3 sl;
+    SList3rong(sl);
 	cout<<"\t========================================================="<<endl;
 	cout<<"\t=\t\tNhap 1: Nhap khach hang.\t\t="<<endl;
 	cout<<"\t=\t\tNhap 2: Xuat DS khach hang.\t\t="<<endl;
 	cout<<"\t=\t\tNhap 3: Hoa don cua mot khach.\t\t="<<endl;
-	cout<<"\t=\t\tNhap 4: Thoat chuong trinh.\t\t="<<endl;
+	cout<<"\t=\t\tNhap 4: Nhap ten nhan vien .\t\t="<<endl;
+	cout<<"\t=\t\tNhap 5: Xuat danh sach nhan vien .\t="<<endl;
+	cout<<"\t=\t\tNhap 6: Tien luong cua nhan vien.\t="<<endl;
+	cout<<"\t=\t\tNhap 7: Thoat chuong trinh.\t\t="<<endl;
 	cout<<"\t========================================================="<<endl;
 	cout<<"\t\t\tNhap lua chon: ";
 	while (1)
+
 	{
 		cout<<endl<<"Nhap chuc nang: ";
 		cin>>luachon;
@@ -232,11 +386,21 @@ void menu(SList1 &l)
 		}
 		if(luachon==4)
 		{
+			Node3*p3=TaoNode3();
+			addLast(sl,p3);
+		}
+		if(luachon==5);
+			xuat(sl);
+		if(luachon==6)
+		{
+			wpay(sl);
+		}
+		if(luachon==7)
+		{
 			exit(0);
 		}
 	}
 }
-//TODO: CLASS NGUYEN LIEU
 int main(){
 	cout<<"\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl;
 	cout<<"\t@                                                         @"<<endl;
@@ -257,8 +421,8 @@ int main(){
 	cout<<"\t@   Tra viet quoc :  60K           Tra sua oolong:   60K  @"<<endl;
 	cout<<"\t@                                                         @"<<endl;
 	cout<<"\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl<<endl<<endl;
-	SList1 l;
-	SList1rong(l);
-	menu(l);
-}
 
+	menu();
+
+    
+}
