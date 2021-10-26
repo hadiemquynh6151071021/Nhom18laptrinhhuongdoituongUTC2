@@ -12,18 +12,18 @@ class Thongtin{
 		void Nhapthongtin()
 		{
 			fflush(stdin);
-			cout << endl <<"Nhap ngay sinh: ";
+			cout <<"\tNhap ngay sinh: ";
 			getline(cin,Ngaysinh);
-			cout << endl << "Nhap SDT: " ;
+			cout <<"\tNhap SDT: " ;
 			getline(cin,SDT);
-			cout << endl <<"Nhap dia chi: ";
+			cout <<"\tNhap dia chi: ";
 			getline(cin,Diachi);
 		}
 		void Xuatthongtin()
 		{
-			cout <<"Ngay sinh: " << Ngaysinh << endl ;
-			cout << "So dien thoai: " << SDT << endl ;
-			cout << "Dia chi: " << Diachi <<endl;
+			cout <<"\t\t\tNgay sinh: " << Ngaysinh << endl ;
+			cout << "\t\t\tSo dien thoai: " << SDT << endl ;
+			cout << "\t\t\tDia chi: " << Diachi <<endl;
 		}
 		
 };
@@ -50,32 +50,31 @@ string KhachHang::getnm()
 istream & operator >> (istream &is, KhachHang & k)
 {
 		fflush(stdin);
-		cout << "Nhap ma khach hang: ";
+		cout <<endl<<"\tNhap ma khach hang: ";
 		getline(cin,k.MKH);
 		k.Nhapthongtin();
 		fflush(stdin);
-		cout << endl << "Nhap ngay mua: " ;
+		cout <<"\tNhap ngay mua: " ;
 		getline(cin,k.NgayMua);
-		cout << endl << "Nhap so luong " ;
+		cout <<"\tNhap so luong: " ;
 		cin >> k.SoLuong ;
 		for (int i=1;i<=k.SoLuong;i++)	// mat hang la kieu mang do 1 nguoi co the mua nhieu mon
 		{
 			fflush(stdin);
-			cout << endl << "Nhap mat hang " << i <<":";
+			cout <<"\t\tNhap mat hang " << i <<":";
 			getline(cin,k.MatHang[i]);
 		}
 }
 ostream & operator << (ostream &os, KhachHang &k )
 {
-	cout << endl <<"Ma khach hang: "<<k.MKH<<endl;
+	cout << endl <<"\t\t\tMa khach hang: "<<k.MKH<<endl;
 	k.Xuatthongtin();
-	cout << "Ngay mua hang: " << k.NgayMua << endl ;
-	cout << "So luong: " << k.SoLuong << endl ;
+	cout << "\t\t\tNgay mua hang: " << k.NgayMua << endl ;
+	cout << "\t\t\tSo luong: " << k.SoLuong << endl ;
 	for (int i=1; i<=k.SoLuong; i++)
 	{
-			cout << "Ten mon " << i << ":" << k.MatHang[i] << endl;
+			cout << "\t\t\t\tTen mon " << i << ":" << k.MatHang[i] << endl;
 	}
-	k.GiaThanhToan();
 }
 void KhachHang::GiaThanhToan()
 {
@@ -115,18 +114,17 @@ void KhachHang::GiaThanhToan()
 		}
 	}
 	for (int i=0;i<=SoLuong;i++)		//cau lenh tinh tong trong truong hop 1 nguoi mua 2 mat hang khac nhau
-		{
-			Tong += Gia[i];
-			
-		}
+	{
+			Tong += Gia[i];	
+	}
 	if(getns().compare(getnm())==0)
 	{
-		cout<<"Uu dai 15% nhan dip sinh nhat";
-		cout<<endl<<"Gia thanh toan: "<<Tong-((Tong*15)/100);
+		cout<<"\t\t\tUu dai 15% nhan dip sinh nhat";
+		cout<<endl<<"\t\t\tGia thanh toan: "<<Tong-((Tong*15)/100)<<"d";
 	}
 	else
 	{
-		cout<<endl<<"Gia thanh toan: "<<Tong <<"d";
+		cout<<"\t\t\tGia thanh toan: "<<Tong <<"d";
 	}
 	delete [] Gia;
 }
@@ -150,8 +148,13 @@ void SList1rong(SList1 &l){
 //HAM XUAT 1 DANH SACH
 void Xuatds(SList1 l) {
 	Node* p = l.head;
+	int i=0;
+	cout<<endl<<"\t\t\t\tDANH SACH KHACH HANG:";
 	while (p != NULL) {
+		cout<<endl<<"\t\t\t--------------------------------\n";
+		cout<<"\t\t\t\tKHACH HANG THU "<<i+1<<endl;
 		cout<<(p->data);
+		i++;
 		p = p->next;
 	}
 	cout << endl;
@@ -193,8 +196,10 @@ void Hoadon(SList1 &l)
 		if(x.compare(p->data.getMKH())==0)
 		{
 			cout<<p->data;
+			p->data.GiaThanhToan();
 		}
 		p=p->next;
+		
 	}
 }
 //HAM MENU
@@ -203,8 +208,9 @@ void menu(SList1 &l)
 	int luachon;
 	cout<<"\t========================================================="<<endl;
 	cout<<"\t=\t\tNhap 1: Nhap khach hang.\t\t="<<endl;
-	cout<<"\t=\t\tNhap 2: Hoa don cua mot khach.\t\t="<<endl;
-	cout<<"\t=\t\tNhap 3: Thoat chuong trinh.\t\t="<<endl;
+	cout<<"\t=\t\tNhap 2: Xuat DS khach hang.\t\t="<<endl;
+	cout<<"\t=\t\tNhap 3: Hoa don cua mot khach.\t\t="<<endl;
+	cout<<"\t=\t\tNhap 4: Thoat chuong trinh.\t\t="<<endl;
 	cout<<"\t========================================================="<<endl;
 	cout<<"\t\t\tNhap lua chon: ";
 	while (1)
@@ -218,9 +224,13 @@ void menu(SList1 &l)
 		}
 		if(luachon==2)
 		{
-			Hoadon(l);
+				Xuatds(l);
 		}
 		if(luachon==3)
+		{
+			Hoadon(l);
+		}
+		if(luachon==4)
 		{
 			exit(0);
 		}
