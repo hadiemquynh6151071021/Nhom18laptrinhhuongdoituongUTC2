@@ -407,7 +407,7 @@ void XuatDSNV(SList3 sl) {
 		cout<<"\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
 		cout<<"\7";
 	}
-	if(p != NULL)
+	if(p3 != NULL)
 	{
 		int i=0;
 		cout<<endl<<"\t\t\t\tDANH SACH NHAN VIEN:";
