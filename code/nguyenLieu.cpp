@@ -108,6 +108,7 @@ void XuatDanhSachNguyenLieu ( LIST l){
         cout<<k->data;
     }
 }
+//chưa có hàm main
 
 
 
