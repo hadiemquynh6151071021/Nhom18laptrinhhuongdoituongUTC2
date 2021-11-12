@@ -118,6 +118,7 @@ int main(){
     
     
     return 0;
+    //con ham tinh tong tien 1 tuan
 }
 
 
