@@ -1,5 +1,4 @@
 #include<iostream>
-#include<bits/stdc++.h>
 using namespace std;
 class NguyenLieu {
     private: 
@@ -12,6 +11,7 @@ class NguyenLieu {
         friend istream &operator >> ( istream &in, NguyenLieu &nl);
         friend ostream &operator << ( ostream &out, NguyenLieu nl);
         float GiaMotNgay();
+       
 };
 istream &operator >> ( istream &in, NguyenLieu &nl){
     cout<<"Nhap so luong nguyen lieu: "<<endl;
@@ -63,7 +63,7 @@ float NguyenLieu::GiaMotNgay() {
 }
 //ham tao mot struct node
 struct Node { 
-    int data;
+    NguyenLieu data;
     struct Node *pNext;
 };
 typedef struct Node NODE;
@@ -81,7 +81,7 @@ void KhoiTaoListRong( LIST &l) {
     l.size = 0;
 }
 // ham tao node 
-NODE* KhoiTaoNodeRong ( int x) {
+NODE* KhoiTaoNodeRong ( NguyenLieu x) {
     NODE *p= new NODE; // cap phat vung nho cho node p
     if(p == NULL){
         cout<<"Khong du bo nho de cap phat";
@@ -103,12 +103,22 @@ void ThemVaoCuoi(LIST &l, NODE *p){
     }
     l.size= l.size +1;
 }
-void XuatDanhSachNguyenLieu ( LIST l){
-    for( NODE *k=l.pHead ; k!= NULL; k=k->pNext){
-        cout<<k->data;
-    }
+
+
+int main(){
+    NguyenLieu nl;
+    LIST l;
+    cout<<"Moi ban nhap thong tin nguyen lieu: "<<endl;
+    cin>>nl;
+    cout<<"Thong tin nguyen lieu: "<<endl;
+    cout<<nl;
+    cout<<"Gia nguyen lieu: "<<endl;
+    cout<<nl.GiaMotNgay();
+    cout<<endl<<"Gia nguyen lieu mot tuan:"<<endl;
+    
+    
+    return 0;
 }
-//chưa có hàm main
 
 
 
