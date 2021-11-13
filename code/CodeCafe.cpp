@@ -32,7 +32,7 @@ void NhapDate(Date &d) {			//ham nhap ngay
 	cin >> d.year;
 }
 void XuatDate(Date d) {
-	cout << "\t\t\t" << d.date << "/" << d.month << "/" << d.year <<endl;
+	cout << "\t\t\tNgay sinh:" << d.date << "/" << d.month << "/" << d.year <<endl;
 }
 //TODO: CLASS NGUOI
 class Nguoi {
@@ -357,6 +357,7 @@ ostream& operator << (ostream &os, NhanVien & n) {		//nap chong toan tu xuat 1 n
     n.Xuatthongtin();
     os<<"\t\t\tLoai nhan vien :"<<n.loainhanvien<<endl;
     os<<"\t\t\tSo luong gio:"<<n.soluonggio<<endl;
+    
     return os;
 }
 
@@ -517,8 +518,8 @@ void GhiFileNhanVien(SList3 sl) {			//ghi file nhan vien
 	FILE *file = fopen("NhanVien.txt","w");
 	Node3 *p3=sl.head3; 
 	while(p3 != NULL) {
-		fprintf(file,"\n%30s %2d/%2d/%4d",p3->data3.name.c_str(),p3->data3.NgaySinh.date,p3->data3.NgaySinh.month,p3->data3.NgaySinh.year);
-		fprintf(file,"%10s %15s %15s%4d",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio);
+		fprintf(file,"\n%30s %2d %2d %4d",p3->data3.name.c_str(),p3->data3.NgaySinh.date,p3->data3.NgaySinh.month,p3->data3.NgaySinh.year);
+		fprintf(file,"%10s %15s %15s %4d",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio);
 		p3 = p3->next3;
 	}
 	fclose(file);
@@ -536,10 +537,11 @@ void wpay (SList3 sl) {					//ham dua ra luong nhan vien trong danh sach dua the
         if(x.compare(p3->data3.getname())==0) {    
             cout<< std::setprecision(20);
             cout<<p3->data3;
-            p3->data3.GiaTien();
+            cout<<"\nLuong:";
+           	cout<< p3->data3.GiaTien()<<"d"; 
             dem++;
-        }
-		p3=p3->next3;
+            }
+     p3=p3->next3;
     }
     if(dem==0) {
 			cout<<"\n\t\t\tKhong tim thay nhan vien.";
@@ -547,6 +549,7 @@ void wpay (SList3 sl) {					//ham dua ra luong nhan vien trong danh sach dua the
 	}
     Beep(523,500);
     cin.get(); 
+   
 }
 
 //ham tao tieu de
