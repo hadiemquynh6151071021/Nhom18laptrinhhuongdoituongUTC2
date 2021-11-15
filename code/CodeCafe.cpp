@@ -32,7 +32,7 @@ void NhapDate(Date &d) {			//ham nhap ngay
 	cin >> d.year;
 }
 void XuatDate(Date d) {
-	cout << "\t\t\t" << d.date << "/" << d.month << "/" << d.year <<endl;
+	cout << d.date << "/" << d.month << "/" << d.year <<endl;
 }
 //TODO: CLASS NGUOI
 class Nguoi {
@@ -57,6 +57,7 @@ class Nguoi {
 			getline(cin,Diachi);
 		}
 		void Xuatthongtin() {					//ham xuat 1 nguoi
+			cout << "\n\t\t\tNgay Sinh: ";
 			XuatDate(NgaySinh);
 			cout << "\t\t\tSo dien thoai: " << SDT << endl ;
 			cout << "\t\t\tDia chi: " << Diachi <<endl;
@@ -113,6 +114,7 @@ istream & operator >> (istream &is, KhachHang &k ) {			//nhap 1 khach hang ghi v
 ostream & operator << (ostream &os, KhachHang &k ) {	//nap chong toan tu xuat 1 kh
 	os << endl << "\t\t\tMa khach hang: " << k.MKH << endl;
 	k.Xuatthongtin();
+	cout << "\t\t\tNgay mua: ";
 	XuatDate(k.NgayMua);
 	os << "\t\t\tSo luong: " << k.SoLuong << endl ;
 	for (int i=1; i <= k.SoLuong; i++) {
@@ -280,7 +282,7 @@ void Hoadon (SList1 &l) {				//ham in hoa don 1 kh dua vao tim kiem mkh
 				Beep(523,500);  
 	    		cin.get(); 
 				cout << p->data;
-				cout << "\n\t\t\tGia Tien thanh toan: " << p->data.GiaTien();
+				cout << "\t\t\tGia Tien thanh toan: " << p->data.GiaTien() << "d";
 				dem++;
 			}
 			p = p->next;
@@ -297,7 +299,7 @@ void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
 	Node *p=l.head; 
 	while(p != NULL) {
 		fprintf(file,"\n%5s %2d/%2d/%4d",p->data.MKH.c_str(),p->data.NgaySinh.date,p->data.NgaySinh.month,p->data.NgaySinh.year);
-		fprintf(file,"%10s %15s %2d/%2d/%4d\n%2d: ",p->data.SDT.c_str(),p->data.Diachi.c_str(),p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year,p->data.SoLuong);
+		fprintf(file," %10s %15s %2d/%2d/%4d\n%2d: ",p->data.SDT.c_str(),p->data.Diachi.c_str(),p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year,p->data.SoLuong);
 		for(int i=1;i<=p->data.SoLuong;i++) {
 			fprintf(file,"%15s",p->data.MatHang[i].c_str());
 		}
@@ -353,7 +355,7 @@ istream & operator >> (istream &is, NhanVien & n){			//nhap 1 nhan vien ghi vao 
 }
 
 ostream& operator << (ostream &os, NhanVien & n) {		//nap chong toan tu xuat 1 nhan vien
-    os<<"\t\t\tHo va ten :"<<n.name<<endl;
+    os<<"\t\t\tHo va ten :"<<n.name;
     n.Xuatthongtin();
     os<<"\t\t\tLoai nhan vien :"<<n.loainhanvien<<endl;
     os<<"\t\t\tSo luong gio:"<<n.soluonggio<<endl;
@@ -406,7 +408,7 @@ void searchbyName(SList3 sl) {					//ham tim kiem nhan vien theo ten
     Node3*p3 = sl.head3;
     if(p3 == NULL) {
     	cout << "\n\t\t\t\7Danh sach dang trong.";
-    	cout << "\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
+    	cout << "\n\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
 		int dem=0;
@@ -518,7 +520,7 @@ void GhiFileNhanVien(SList3 sl) {			//ghi file nhan vien
 	Node3 *p3=sl.head3; 
 	while(p3 != NULL) {
 		fprintf(file,"\n%30s %2d/%2d/%4d",p3->data3.name.c_str(),p3->data3.NgaySinh.date,p3->data3.NgaySinh.month,p3->data3.NgaySinh.year);
-		fprintf(file,"%10s %15s %15s%4d",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio);
+		fprintf(file," %10s %15s %15s%4d",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio);
 		p3 = p3->next3;
 	}
 	fclose(file);
@@ -529,14 +531,14 @@ void wpay (SList3 sl) {					//ham dua ra luong nhan vien trong danh sach dua the
     string x;
     int dem=0;
     fflush (stdin);
-    cout<<"\t\t\tNhap ten nhan vien :";
+    cout<<"Nhap ten nhan vien can tim :";
     getline(cin,x);
     Node3*p3 = sl.head3;
     while (p3 != NULL) {
         if(x.compare(p3->data3.getname())==0) {    
             cout<< std::setprecision(20);
             cout<<p3->data3;
-            p3->data3.GiaTien();
+            cout<<"\t\t\tLuong: "<<p3->data3.GiaTien() <<"d";
             dem++;
         }
 		p3=p3->next3;
@@ -619,10 +621,10 @@ void menu1() {
 	cout<<"=               Nhap 2: Chinh sua khach hang.            ="; gotoxy(11,32);
 	cout<<"=               Nhap 3: Xuat DS khach hang.              ="; gotoxy(11,33);
 	cout<<"=               Nhap 4: Ghi file khach hang.             ="; gotoxy(11,34);
-	cout<<"=               Nhap 5: Hoa don cua 1 khach.             ="; gotoxy(11,34);
-	cout<<"=               Nhap 6: Tro ve menu chinh.               ="; gotoxy(11,35);
-	cout<<"=               Nhap 7: Thoat chuong trinh.              ="; gotoxy(11,36);
-	cout<<"=========================================================="; gotoxy(11,37);
+	cout<<"=               Nhap 5: Hoa don cua 1 khach.             ="; gotoxy(11,35);
+	cout<<"=               Nhap 6: Tro ve menu chinh.               ="; gotoxy(11,36);
+	cout<<"=               Nhap 7: Thoat chuong trinh.              ="; gotoxy(11,37);
+	cout<<"=========================================================="; gotoxy(11,38);
 	fflush(stdin);
 	cout<<"Nhap lua chon: ";
 	while (1) {
@@ -633,7 +635,7 @@ void menu1() {
 			cout<<"Nhap so luong khach hang:";
 			cin>>n;
 			for(int j=0;j<n;j++) {
-				cout<<"\t\tKHACH HANG THU "<<++i<<":"<<endl;
+				cout<<"\n\t\tKHACH HANG THU "<<++i<<":"<<endl;
 				Node *p=Taonode1();
 				Themcuoi1(l,p);
 			}
@@ -645,13 +647,16 @@ void menu1() {
 			XuatDSKH(l);
 		}
 		else if(luachon==4) {
-			Hoadon(l);
+			GhiFileKhachHang(l);
 		}
 		else if(luachon==5) {
+			Hoadon(l);
+		}
+		else if(luachon==6) {
 			system("cls");
 			menuChung();
 		}
-		else if(luachon==6) {
+		else if(luachon==7) {
 			exit(0);
 		}
 		else {
@@ -687,7 +692,7 @@ void menu2() {
 			cout<<"Nhap so luong nhan vien:";
 			cin>>n;
 			for(int j=0;j<n;j++) {
-				cout<<"NHAN VIEN THU "<<++i<<":"<<endl;
+				cout<<"\n\t\tNHAN VIEN THU "<<++i<<":"<<endl;
 				Node3*p3=TaoNode3();
 				addLast(sl,p3);
 			}
