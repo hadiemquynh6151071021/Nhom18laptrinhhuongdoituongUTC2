@@ -298,8 +298,8 @@ void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
 	FILE *file = fopen("KhachHang.txt","w");
 	Node *p=l.head; 
 	while(p != NULL) {
-		fprintf(file,"\n%5s %2d/%2d/%4d",p->data.MKH.c_str(),p->data.NgaySinh.date,p->data.NgaySinh.month,p->data.NgaySinh.year);
-		fprintf(file," %10s %15s %2d/%2d/%4d\n%2d: ",p->data.SDT.c_str(),p->data.Diachi.c_str(),p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year,p->data.SoLuong);
+		fprintf(file,"\nMa khach hang:%0s \nNgay sinh:%0d/%1d/%4d",p->data.MKH.c_str(),p->data.NgaySinh.date,p->data.NgaySinh.month,p->data.NgaySinh.year);
+		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s  \nNgay mua:%0d/%1d/%4d \nSo luong:%0d ",p->data.SDT.c_str(),p->data.Diachi.c_str(),p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year,p->data.SoLuong);
 		for(int i=1;i<=p->data.SoLuong;i++) {
 			fprintf(file,"%15s",p->data.MatHang[i].c_str());
 		}
@@ -519,8 +519,8 @@ void GhiFileNhanVien(SList3 sl) {			//ghi file nhan vien
 	FILE *file = fopen("NhanVien.txt","w");
 	Node3 *p3=sl.head3; 
 	while(p3 != NULL) {
-		fprintf(file,"\n%30s %2d/%2d/%4d",p3->data3.name.c_str(),p3->data3.NgaySinh.date,p3->data3.NgaySinh.month,p3->data3.NgaySinh.year);
-		fprintf(file," %10s %15s %15s%4d",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio);
+		fprintf(file,"\nHo va ten:%0s \nNgay sinh:%0d/%1d/%4d",p3->data3.name.c_str(),p3->data3.NgaySinh.date,p3->data3.NgaySinh.month,p3->data3.NgaySinh.year);
+		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s \nLoai nhan vien:%0s \nGio lam:%0d",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio);
 		p3 = p3->next3;
 	}
 	fclose(file);
