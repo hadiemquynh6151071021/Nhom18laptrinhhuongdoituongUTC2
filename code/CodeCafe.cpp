@@ -431,29 +431,26 @@ void searchbyName(SList3 sl) {					//ham tim kiem nhan vien theo ten
 void MaxLuong(SList3 sl) {				//ham tim nhan vien luong cao nhat
 	
 	Node3* p3 = sl.head3;
-	NhanVien max = p3->data3;
-	Node3* q3 = p3->next3;
-	if(p3==NULL) {
+	if(p3==NULL)
+    {
     	cout<<"\n\t\t\t\7Danh sach dang trong.";
     	cout<<"\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
-		int dem=0;
+		NhanVien max = p3->data3;
+		Node3* q3 = p3->next3;
 		while(q3 != NULL) {
 			if(max.GiaTien() < q3->data3.GiaTien()) {
 				max = q3->data3;
-				dem++;
-				Beep(523,500);
-	    		cin.get();
-				cout<< "\nNhan vien co luong cao nhat la: "<<endl;
-				cout << max;
 			}
 			q3 = q3->next3;
 		}
-		if(dem == 0) {
-			cout<<"\n\t\t\t\7Khong tim thay nhan vien.";
-			cout<<"\n\t\t\tNHAN PHIM 7 DE TIM LAI.";
-		}	
+		Beep(523,500);
+	    cin.get();
+		cout << "\nNhan vien co luong cao nhat la: "<<endl;
+		cout << max;
+		cout<< std::setprecision(20);
+		cout<<"\t\t\tLuong: "<<p3->data3.GiaTien() <<"d";		
 	}	
 }
 
@@ -588,11 +585,12 @@ void menuChung() {
 	cout<<"..............................................................................";	gotoxy(1,12);
 	gotoxy(35.5,15);
 	cout<<"NHAN PHIM";
-	gotoxy(35.5,16);
+	gotoxy(34,16);
 	cout<<"1.Khach hang.";
-	gotoxy(35.5,17);
+	gotoxy(34,17);
 	cout<<"2.Nhan vien.";
-	cout<<"\nNhap doi tuong muon xu ly:";
+	gotoxy(26.5,18);
+	cout<<"Nhap doi tuong muon xu ly: ";
 	cin>>n;
 	if(n==1) {
 		system("cls");
@@ -603,8 +601,8 @@ void menuChung() {
 		menu2();
 	}
 	else {
-		cout<<"\n\t\t\tMOI BAN NHAN LAI:";
-		sleep(5); 			//keo dai time hien thi dong chu
+		cout<<"\n\n\t\t\t\t\7MOI BAN NHAN LAI:";
+		sleep(3); 			//keo dai time hien thi dong chu
 		menuChung();
 	}
 }
@@ -670,19 +668,18 @@ void menu2() {
 	int luachon;
 	SList3 sl;
 	SList3rong(sl);
-	TieuDe();
-    gotoxy(11,29);
-	cout<<"=========================================================="; gotoxy(11,30);
-	cout<<"=               Nhap 1: Nhap DS nhan vien.               ="; gotoxy(11,31);
-	cout<<"=               Nhap 2: Chinh sua nhan vien.             ="; gotoxy(11,32);
-	cout<<"=               Nhap 3: Xuat DS nhan vien.               ="; gotoxy(11,33);
-	cout<<"=               Nhap 4: Ghi file nhan vien.              ="; gotoxy(11,34);
-	cout<<"=               Nhap 5: Tim kiem nhan vien.              ="; gotoxy(11,35);
-	cout<<"=               Nhap 6: Xuat luong nhan vien.            ="; gotoxy(11,36);
-	cout<<"=               Nhap 7: Luong nhan vien cao nhat.        ="; gotoxy(11,37);
-	cout<<"=               Nhap 8: Tro ve menu chinh.               ="; gotoxy(11,38);
-	cout<<"=               Nhap 9: Thoat chuong trinh.              ="; gotoxy(11,39);
-	cout<<"=========================================================="; gotoxy(11,40);
+    gotoxy(11,6);
+	cout<<"=========================================================="; gotoxy(11,7);
+	cout<<"=               Nhap 1: Nhap DS nhan vien.               ="; gotoxy(11,8);
+	cout<<"=               Nhap 2: Chinh sua nhan vien.             ="; gotoxy(11,9);
+	cout<<"=               Nhap 3: Xuat DS nhan vien.               ="; gotoxy(11,10);
+	cout<<"=               Nhap 4: Ghi file nhan vien.              ="; gotoxy(11,11);
+	cout<<"=               Nhap 5: Tim kiem nhan vien.              ="; gotoxy(11,12);
+	cout<<"=               Nhap 6: Xuat luong nhan vien.            ="; gotoxy(11,13);
+	cout<<"=               Nhap 7: Luong nhan vien cao nhat.        ="; gotoxy(11,14);
+	cout<<"=               Nhap 8: Tro ve menu chinh.               ="; gotoxy(11,15);
+	cout<<"=               Nhap 9: Thoat chuong trinh.              ="; gotoxy(11,16);
+	cout<<"=========================================================="; gotoxy(11,17);
 	cout<<"Nhap lua chon: ";
 	while (1) {
 		cout<<endl<<"Nhap chuc nang: ";
