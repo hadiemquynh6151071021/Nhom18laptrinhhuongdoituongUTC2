@@ -48,7 +48,7 @@ class Nguoi {
 		}
 		void Nhapthongtin() {					//ham nhap 1 nguoi
 			
-			cout << "\tNhap ngay sinh: ";
+			cout << "\nNhap ngay sinh: ";
 			NhapDate(NgaySinh);
 			fflush(stdin);
 			cout <<"\tNhap SDT: " ;
@@ -57,7 +57,7 @@ class Nguoi {
 			getline(cin,Diachi);
 		}
 		void Xuatthongtin() {					//ham xuat 1 nguoi
-			cout << "\n\t\t\tNgay Sinh: ";
+			cout << "\t\t\tNgay Sinh: ";
 			XuatDate(NgaySinh);
 			cout << "\t\t\tSo dien thoai: " << SDT << endl ;
 			cout << "\t\t\tDia chi: " << Diachi <<endl;
@@ -95,7 +95,7 @@ Date KhachHang::getnm() {						//ham lay ngay mua
 
 istream & operator >> (istream &is, KhachHang &k ) {			//nhap 1 khach hang ghi vao file
 	fflush(stdin);
-	cout << endl << "\tNhap ma khach hang: " ;
+	cout << "\tNhap ma khach hang: " ;
 	getline(is,k.MKH);
 	k.Nhapthongtin();
 	cout << "\tNhap ngay mua: " ;
@@ -112,13 +112,13 @@ istream & operator >> (istream &is, KhachHang &k ) {			//nhap 1 khach hang ghi v
 }
 
 ostream & operator << (ostream &os, KhachHang &k ) {	//nap chong toan tu xuat 1 kh
-	os << endl << "\t\t\tMa khach hang: " << k.MKH << endl;
+	os << "\t\t\tMa khach hang: " << k.MKH << endl;
 	k.Xuatthongtin();
 	cout << "\t\t\tNgay mua: ";
 	XuatDate(k.NgayMua);
 	os << "\t\t\tSo luong: " << k.SoLuong << endl ;
 	for (int i=1; i <= k.SoLuong; i++) {
-			os << "\t\t\t\tTen mon " << i << ":" << k.MatHang[i] << endl;
+			os << "\t\t\tTen mon " << i << ":" << k.MatHang[i] << endl;
 	}
 	return os;
 }
@@ -299,7 +299,7 @@ void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
 	Node *p=l.head; 
 	while(p != NULL) {
 		fprintf(file,"\nMa khach hang:%0s \nNgay sinh:%0d/%1d/%4d",p->data.MKH.c_str(),p->data.NgaySinh.date,p->data.NgaySinh.month,p->data.NgaySinh.year);
-		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s  \nNgay mua:%0d/%1d/%4d \nSo luong:%0d ",p->data.SDT.c_str(),p->data.Diachi.c_str(),p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year,p->data.SoLuong);
+		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s  \nNgay mua:%0d/%1d/%4d \nSo luong:%0d \nTong gia:%0fd",p->data.SDT.c_str(),p->data.Diachi.c_str(),p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year,p->data.SoLuong,p->data.GiaTien());
 		for(int i=1;i<=p->data.SoLuong;i++) {
 			fprintf(file,"%15s",p->data.MatHang[i].c_str());
 		}
@@ -517,7 +517,7 @@ void GhiFileNhanVien(SList3 sl) {			//ghi file nhan vien
 	Node3 *p3=sl.head3; 
 	while(p3 != NULL) {
 		fprintf(file,"\nHo va ten:%0s \nNgay sinh:%0d/%1d/%4d",p3->data3.name.c_str(),p3->data3.NgaySinh.date,p3->data3.NgaySinh.month,p3->data3.NgaySinh.year);
-		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s \nLoai nhan vien:%0s \nGio lam:%0d",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio);
+		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s \nLoai nhan vien:%0s \nGio lam:%0d \nLuong:%fd",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio,p3->data3.GiaTien());
 		p3 = p3->next3;
 	}
 	fclose(file);
