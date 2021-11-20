@@ -1,14 +1,27 @@
 #include<iostream>
+#include<windows.h>	
+#include<fstream>
 using namespace std;
 //TODO: Class Nguyen lieu( to chuc theo kieu danh sach lien ket don gom n ngay)
 //TODO: struct ngay thang nam
 struct Date {						
 	int date, month, year;
 };
+void NhapDate(Date &d) {			//ham nhap ngay
+	cout << "\n\t\t-Ngay:";
+	cin >> d.date;
+	cout <<"\t\t-Thang:";
+	cin >> d.month;
+	cout <<"\t\t-Nam:";
+	cin >> d.year;
+}
+void XuatDate(Date d) {
+	cout << d.date << "/" << d.month << "/" << d.year <<endl;
+}
 //TODO: class nguyen lieu
 class NguyenLieu {
     private: 
-        Date HSD;
+        Date date;
         float Coffee;
         float Tra;
         float Sua;
@@ -18,6 +31,12 @@ class NguyenLieu {
         NguyenLieu();
         friend istream &operator >> ( istream &in, NguyenLieu &nl);
         friend ostream &operator << ( ostream &out, NguyenLieu nl);
+        float GiaMotNgay();
+        friend void GhiFileNguyenLieu(LIST l);
+        Date getDate(){
+            return date;
+        }
+        
 };
 //Todo: Ham tao nguyen lieu khong doi so
 NguyenLieu::NguyenLieu(){           
@@ -47,6 +66,8 @@ void KhoiTaoListRong( LIST &l) {
 
 // TODO: ham nhap so luong nguyen lieu 1 ngay( 1 node la 1 ngay)  
 istream &operator >> ( istream &in, NguyenLieu &nl){
+    cout<<"Nhap Date: "<<endl;
+    NhapDate(nl.date);
     cout<<"Nhap so luong nguyen lieu: "<<endl;
     cout<<"Coffee: ";
     in>>nl.Coffee;
@@ -62,6 +83,8 @@ istream &operator >> ( istream &in, NguyenLieu &nl){
 }
 //TODO: ham xuat so luong nguyen lieu 1 ngay
 ostream &operator << ( ostream &out, NguyenLieu nl){
+    cout << "Date: ";
+	XuatDate(nl.date);
     out<<"So luong nguyen lieu da dung: "<<endl;
     out<<"Coffee: "<<nl.Coffee<<endl;
     out<<"Tra: "<<nl.Tra<<endl;
@@ -94,32 +117,6 @@ void ThemVaoCuoi(LIST &l, NODE *p){
     }
     l.size= l.size +1;
 }
-int main(){
-    LIST *list;
-    NguyenLieu nl;
-    cout<<"Nhap thong tin Nguyen lieu 1 ngay: "<<endl;
-    cin>>nl;
-    cout<<"Thong tin Nguyen lieu da nhap: "<<endl;
-    cout<<nl;
-
-
-}
-
-
-/*class NguyenLieu {
-    private: 
-        float Coffee;
-        float Tra;
-        float Sua;
-        int Da;
-        int LyDung;
-    public:
-        friend istream &operator >> ( istream &in, NguyenLieu &nl);
-        friend ostream &operator << ( ostream &out, NguyenLieu nl);
-        float GiaMotNgay();
-       
-};
-
 float NguyenLieu::GiaMotNgay() {
     string x1="Coffee", x2="Tra", x3="Sua", x4="Da", x5="Ly Dung";
     float GiaCoffeeMotNgay=0;
@@ -145,24 +142,134 @@ float NguyenLieu::GiaMotNgay() {
     float GiaNguyenLieu =GiaCoffeeMotNgay + GiaTraMotNgay + GiaSuaMotNgay + GiaDaMotNgay + GiaLyDungMotNgay;
     return GiaNguyenLieu;
 }
+//TODO: ham nhap danh sach nguyen lieu
+void NhapDS(LIST &l)
+{
+    NODE *p;
+    NguyenLieu x;
+    int n;
+    l.pHead=l.pTail=NULL;//khoi dong ds rong
+    cout<<"Nhap vao so luong ngay: ";           //1 NODE la 1 ngay
+    cin>>n;
+    for(int i=0;i<n;i++)
+        {
+            cout<<"Nhap thong tin nguyen lieu ngay "<<i+1<<" :"<<endl;
+            cin>>x;
+            p=KhoiTaoNodeRong(x);
+            ThemVaoCuoi(l,p); //addhead(l,p);
+       }
 
+}
+//TODO: ham hien thi danh sach nguyen lieu
+void XuatDSNL(LIST l) {				
+	NODE* p = l.pHead;
+	if(p==NULL) {
+		cout<<"\n\t\t\tDanh sach rong.";
+		cout<<"\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
+		cout<<"\7";
+	}
+	if(p != NULL) {
+		int i=0;
+		cout<<endl<<"\t\t\t\tDANH SACH NGUYEN LIEU:";
+		while (p != NULL) {
+			cout<<endl<<"\t\t\t----------------------------------\n";
+			cout<<"\n\t\t\t\tNGUYEN LIEU NGAY "<<i+1<<endl;
+			cout<<(p->data);
+			i++;
+			p = p->pNext;
+		}
+		Beep(523,500);
+	    cin.get(); 
+		cout << endl;
+	}
+	delete p;
+}
+//TODO: ham ghi file nguyen lieu
+/*void GhiFileNhanVien(LIST l) {			//ghi file nhan vien
+	FILE *file = fopen("NhanVien.txt","w");
+	NODE *p=l.pHead; 
+	while(p != NULL) {
+		fprintf(file,"\n------------------------------------------------------------------");
+		fprintf(file,"\n||                     THONG TIN NGUYEN LIEU                    ||");
+        
 
-
-int main(){
-    NguyenLieu nl;
-    LIST l;
-    cout<<"Moi ban nhap thong tin nguyen lieu: "<<endl;
-    cin>>nl;
-    cout<<"Thong tin nguyen lieu: "<<endl;
-    cout<<nl;
-    cout<<"Gia nguyen lieu: "<<endl;
-    cout<<nl.GiaMotNgay();
-    cout<<endl<<"Gia nguyen lieu mot tuan:"<<endl;
-    
-    
-    return 0;
-    //con ham tinh tong tien 1 tuan
+		p = p->pNext;
+	}
+	fclose(file);
+	cout << "\n\t\t\tGHI FILE NGUYEN LIEU THANH CONG!!!";
 }*/
+/*
+void GhiFileNguyenLieu(ofstream &fileout, NguyenLieu nl){
+    int dem=0;
+    ofstream file;
+    fileout<<"------------------------------------------------------------------"<<endl;
+    fileout<<"||                     THONG TIN NGUYEN LIEU                    ||"<<endl;
+    fileout<<"||   --------------------------------------------------------   ||"<<endl;
+    fileout<<"||      STT"<<"    |"<<"|        Ten nguyen lieu      |"<<"|    So luong"<<"    ||"<<endl;
+    fileout<<"|| \t\t"<<dem++<<"\t   |"<<"|      \tCoffee:               "<<"|"<<"|"<<"       "<<nl.Coffee<< "        ||"<<endl; dem=dem++;
+    fileout<<"|| \t\t"<<dem++<<"\t   |"<<"|      \tTra:                  "<<"|"<<"|"<<"       "<<nl.Tra<< "        ||"<<endl; dem=dem++;
+    fileout<<"|| \t\t"<<dem++<<"\t   |"<<"|      \tSua:                  "<<"|"<<"|"<<"       "<<nl.Sua<< "        ||"<<endl; dem=dem++;
+    fileout<<"|| \t\t"<<dem++<<"\t   |"<<"|      \tDa:                   "<<"|"<<"|"<<"       "<<nl.Da<< "        ||"<<endl; dem=dem++;
+    fileout<<"|| \t\t"<<dem++<<"\t   |"<<"|      \tLy dung:              "<<"|"<<"|"<<"       "<<nl.LyDung<< "        ||"<<endl; 
+    fileout<<"------------------------------------------------------------------"<<endl;
+    fileout.close();
+}
+void LuuFile(LIST l, NguyenLieu nl){
+    ofstream file;
+	NODE *p=l.pHead; 
+	while(p != NULL) {
+        file.open("NguyenLieu.txt", ios::out);
+        GhiFileNguyenLieu(file,nl);
+        p = p->pNext;
+    }
+}*/
+void ChinhSua(LIST l)				//ham chinh sua 1 ngay trong danh sach
+{	
+	NODE *p=l.pHead;
+	if(p == NULL)
+	{
+		cout << "\n\t\t\t\t\7Danh sach rong.";
+		cout << "\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
+	}
+	if(p != NULL)
+	{
+		Date m;
+		cout<<"Nhap Date can chinh sua: ";
+		NhapDate(m);
+		int dem = 0;
+		while(p != NULL)
+		{
+			if(p->data.getDate() == m)
+			{
+				Beep(523,500);
+	    		cin.get(); 
+				cin >> p->data;
+				dem++;
+			}
+			p = p->pNext;
+		}
+		if(dem == 0)
+		{
+			cout << "\n\t\t\t\7Khong co Date trong danh sach";
+			cout << "\n\t\t\tNHAN PHIM 2 DE TIM LAI.";
+		}
+	}
+}
+int main(){
+    LIST l;
+    NODE *p;
+    NguyenLieu nl;
+    NhapDS(l);
+    XuatDSNL(l);
+    //ofstream file;
+    //GhiFileNguyenLieu(l);
+    //LuuFile(l,nl);
+    cout<<nl.GiaMotNgay();
+    KhoiTaoListRong(l);
+    return 0;
+}
+
+    
 
 
 
