@@ -8,7 +8,9 @@ using namespace std;
 
 void menu1();
 void menu2();
+void menu3();
 struct SList1;
+struct SList2;
 struct SList3;
 
 void gotoxy(int x, int y)  {		//ham di chuyen con tro
@@ -48,7 +50,7 @@ class Nguoi {
 		}
 		void Nhapthongtin() {					//ham nhap 1 nguoi
 			
-			cout << "\nNhap ngay sinh: ";
+			cout << "\n\tNhap ngay sinh: ";
 			NhapDate(NgaySinh);
 			fflush(stdin);
 			cout <<"\tNhap SDT: " ;
@@ -63,7 +65,8 @@ class Nguoi {
 			cout << "\t\t\tDia chi: " << Diachi <<endl;
 		}
 		friend void GhiFileKhachHang(SList1 l);
-		friend void GhiFileNhanVien(SList3 sl);
+		friend void GhiFileNhanVien(SList2 sl);
+		friend void GhiFileNguyenLieu(SList3 l);
 		virtual float GiaTien()=0;				//ham thuan ao tinh tien	
 };
 
@@ -127,6 +130,13 @@ int SoSanh(Date a,Date b) {							//so sanh ngay sinh va ngay mua
 	if(a.date==b.date && a.month==b.month)
 		return 1;
 	return 0;
+}
+
+int SS(Date d1,Date d2){
+	if(d1.date==d2.date && d1.month==d2.month && d1.year==d2.year){
+		return 1;
+	}
+	else return 0;
 }
 
 float KhachHang::GiaTien() {						//ham tinh tien 1 kh
@@ -295,21 +305,31 @@ void Hoadon (SList1 &l) {				//ham in hoa don 1 kh dua vao tim kiem mkh
 }
 
 void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
+	int i=1;
 	FILE *file = fopen("KhachHang.txt","w");
 	Node *p=l.head; 
+	fprintf(file,"\t\t\t\t\t=====================================\n");
+	fprintf(file,"\t\t\t\t\t=            KHACH HANG             =\n");
+	fprintf(file,"\t\t\t\t\t=====================================\n\n\n");
 	while(p != NULL) {
-		fprintf(file,"\nMa khach hang:%0s \nNgay sinh:%0d/%1d/%4d",p->data.MKH.c_str(),p->data.NgaySinh.date,p->data.NgaySinh.month,p->data.NgaySinh.year);
-		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s  \nNgay mua:%0d/%1d/%4d \nSo luong:%0d \nTong gia:%.0fd",p->data.SDT.c_str(),p->data.Diachi.c_str(),p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year,p->data.SoLuong,p->data.GiaTien());
+		fprintf(file,"\n\n");
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		fprintf(file,"\t\t\t\t~                 KHACH HANG THU: %2d                 ~\n",i);
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		fprintf(file,"\t\t\t\t         	   Ma khach hang: %s\n",p->data.MKH.c_str());
+		fprintf(file,"\t\t\t\t             Ngay sinh: %2d/%2d/%4d\n",p->data.NgaySinh.date,p->data.NgaySinh.month,p->data.NgaySinh.year);
+		fprintf(file,"\t\t\t\t             SDT: %s\n",p->data.SDT.c_str());
+		fprintf(file,"\t\t\t\t             Ngay mua: %2d/%2d/%4d\n",p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year);
+		fprintf(file,"\t\t\t\t             So luong: %d\n",p->data.SoLuong);
 		for(int i=1;i<=p->data.SoLuong;i++) {
-			fprintf(file,"%15s",p->data.MatHang[i].c_str());
+			fprintf(file,"\t\t\t\t\t\t%15s\n",p->data.MatHang[i].c_str());
 		}
+		i++;
 		p = p->next;
 	}
 	fclose(file);
 	cout << "\n\t\t\tGHI FILE KHACH HANG THANH CONG!!!";
 }
-//TODO: CLASS NGUYEN LIEU
-
 //TODO: NHANVIEN
 class NhanVien:private Nguoi {
 	private:
@@ -318,10 +338,9 @@ class NhanVien:private Nguoi {
     public:
      	friend istream & operator >> (istream &is, NhanVien & n);
 		friend ostream & operator << (ostream &os, NhanVien & n);
-		friend void GhiFileNhanVien(SList3 sl);
+		friend void GhiFileNhanVien(SList2 sl);
         float GiaTien();
         string getname();
-
 };
 
 string NhanVien::getname() {			//ham lay ten nhan vien
@@ -362,64 +381,64 @@ ostream& operator << (ostream &os, NhanVien & n) {		//nap chong toan tu xuat 1 n
     return os;
 }
 
-struct Node3 {				//struct node nhan vien
-    NhanVien data3;
-    Node3* next3;
+struct Node2 {				//struct node nhan vien
+    NhanVien data2;
+    Node2* next2;
 };
 
-struct SList3 {				//struct danh sach nhan vien
-    Node3* head3;
-    Node3* tail3;
-    long size3;
+struct SList2 {				//struct danh sach nhan vien
+    Node2* head2;
+    Node2* tail2;
+    long size2;
 };
 
-void SList3rong(SList3 &sl) {		//ham tao danh sach nhan vien rong
-    sl.head3 = NULL;
-    sl.tail3 = NULL;
-    sl.size3 = 0;
+void SList2rong(SList2 &sl) {		//ham tao danh sach nhan vien rong
+    sl.head2 = NULL;
+    sl.tail2 = NULL;
+    sl.size2 = 0;
 }
 
-Node3* TaoNode3() {					//tao node nhan vien
+Node2* TaoNode2() {					//tao node nhan vien
 	NhanVien v;
-    Node3 *p3 = new Node3 ;
+    Node2 *p2 = new Node2 ;
 	cin >> v;
-    p3->data3 = v;
-    p3->next3= NULL;
-    return p3;
+    p2->data2 = v;
+    p2->next2= NULL;
+    return p2;
 }
 
-void addLast(SList3 &sl , Node3 *p3) {   		//ham them nhan vien vao danh sach
-    if(sl.size3 == 0) {
-       sl. head3 = p3 ;
-       sl. tail3 = p3;
+void addLast(SList2 &sl , Node2 *p2) {   		//ham them nhan vien vao danh sach
+    if(sl.size2 == 0) {
+       sl. head2 = p2 ;
+       sl. tail2 = p2;
     }
     else {
-        sl.tail3 ->next3 = p3;
-        sl.tail3 = p3 ;
+        sl.tail2 ->next2 = p2;
+        sl.tail2 = p2 ;
     }
-    sl.size3 =sl.size3+1;
+    sl.size2 =sl.size2+1;
 }
 
-void searchbyName(SList3 sl) {					//ham tim kiem nhan vien theo ten
+void searchbyName(SList2 sl) {					//ham tim kiem nhan vien theo ten
     string fname;
 	fflush(stdin);
     cout<<"Ten nhan vien muon tim :";
     getline(cin,fname);
-    Node3*p3 = sl.head3;
-    if(p3 == NULL) {
+    Node2*p2 = sl.head2;
+    if(p2 == NULL) {
     	cout << "\n\t\t\t\7Danh sach dang trong.";
     	cout << "\n\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
 		int dem=0;
-	    while ( p3!= NULL) {
-		    if(fname == p3->data3.getname()) {
+	    while ( p2!= NULL) {
+		    if(fname == p2->data2.getname()) {
 				Beep(523,500);  
 	    		cin.get();	
-		        cout<<(p3->data3);
+		        cout<<(p2->data2);
 		        dem++;
 		  	}
-		    p3 = p3-> next3;    
+		    p2 = p2-> next2;    
 	    }
 	    if (dem==0) {
 	    	cout<<"\n\t\t\t\7Khong tim thay nhan vien.";
@@ -428,57 +447,57 @@ void searchbyName(SList3 sl) {					//ham tim kiem nhan vien theo ten
 	}
 }
 
-void MaxLuong(SList3 sl) {				//ham tim nhan vien luong cao nhat
+void MaxLuong(SList2 sl) {				//ham tim nhan vien luong cao nhat
 	
-	Node3* p3 = sl.head3;
-	if(p3==NULL)
+	Node2* p2 = sl.head2;
+	if(p2==NULL)
     {
     	cout<<"\n\t\t\t\7Danh sach dang trong.";
     	cout<<"\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
-		NhanVien max = p3->data3;
-		Node3* q3 = p3->next3;
-		while(q3 != NULL) {
-			if(max.GiaTien() < q3->data3.GiaTien()) {
-				max = q3->data3;
+		NhanVien max = p2->data2;
+		Node2* q2 = p2->next2;
+		while(q2 != NULL) {
+			if(max.GiaTien() < q2->data2.GiaTien()) {
+				max = q2->data2;
 			}
-			q3 = q3->next3;
+			q2 = q2->next2;
 		}
 		Beep(523,500);
 	    cin.get();
 		cout << "\nNhan vien co luong cao nhat la: "<<endl;
 		cout << max;
 		cout<< std::setprecision(20);
-		cout<<"\t\t\tLuong: "<<p3->data3.GiaTien() <<"d";		
+		cout<<"\t\t\tLuong: "<<p2->data2.GiaTien() <<"d";		
 	}	
 }
 
-void SuaDoi2(SList3 sl)				//ham chinh sua 1 nhan vien trong danh sach
+void SuaDoi2(SList2 sl)				//ham chinh sua 1 nhan vien trong danh sach
 {	
-	Node3 *p3=sl.head3;
-	if(p3 == NULL)
+	Node2 *p2=sl.head2;
+	if(p2 == NULL)
 	{
 		cout << "\n\t\t\t\t\7Danh sach rong.";
 		cout << "\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
 	}
-	if(p3 != NULL)
+	if(p2 != NULL)
 	{
 		string m;
 		cout<<"Nhap ten nhan vien can sua doi: ";
 		fflush(stdin);
 		getline(cin,m);
 		int dem = 0;
-		while(p3 != NULL)
+		while(p2 != NULL)
 		{
-			if(p3->data3.getname() == m)
+			if(p2->data2.getname() == m)
 			{
 				Beep(523,500);
 	    		cin.get(); 
-				cin >> p3->data3;
+				cin >> p2->data2;
 				dem++;
 			}
-			p3 = p3->next3;
+			p2 = p2->next2;
 		}
 		if(dem == 0)
 		{
@@ -488,57 +507,70 @@ void SuaDoi2(SList3 sl)				//ham chinh sua 1 nhan vien trong danh sach
 	}
 }
 
-void XuatDSNV(SList3 sl) {				//ham xuat danh sach nhan vien
-	Node3* p3 = sl.head3;
-	if(p3==NULL) {
+void XuatDSNV(SList2 sl) {				//ham xuat danh sach nhan vien
+	Node2* p2 = sl.head2;
+	if(p2==NULL) {
 		cout<<"\n\t\t\tDanh sach rong.";
 		cout<<"\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
 		cout<<"\7";
 	}
-	if(p3 != NULL) {
+	if(p2 != NULL) {
 		int i=0;
 		cout<<endl<<"\t\t\t\tDANH SACH NHAN VIEN:";
-		while (p3 != NULL) {
+		while (p2 != NULL) {
 			cout<<endl<<"\t\t\t--------------------------------\n";
 			cout<<"\n\t\t\t\tNHAN VIEN THU "<<i+1<<endl;
-			cout<<(p3->data3);
+			cout<<(p2->data2);
 			i++;
-			p3 = p3->next3;
+			p2 = p2->next2;
 		}
 		Beep(523,500);
 	    cin.get(); 
 		cout << endl;
 	}
-	delete p3;
+	delete p2;
 }
 
-void GhiFileNhanVien(SList3 sl) {			//ghi file nhan vien
+void GhiFileNhanVien(SList2 sl) {			//ghi file nhan vien
+	int i=1;
 	FILE *file = fopen("NhanVien.txt","w");
-	Node3 *p3=sl.head3; 
-	while(p3 != NULL) {
-		fprintf(file,"\nHo va ten:%0s \nNgay sinh:%0d/%1d/%4d",p3->data3.name.c_str(),p3->data3.NgaySinh.date,p3->data3.NgaySinh.month,p3->data3.NgaySinh.year);
-		fprintf(file," \nSo dien thoai :%0s \nDia chi:%0s \nLoai nhan vien:%0s \nGio lam:%0d \nLuong:%.0fd",p3->data3.SDT.c_str(),p3->data3.Diachi.c_str(),p3->data3.loainhanvien.c_str(),p3->data3.soluonggio,p3->data3.GiaTien());
-		p3 = p3->next3;
+	Node2 *p2=sl.head2; 
+	fprintf(file,"\t\t\t\t\t=====================================\n");
+	fprintf(file,"\t\t\t\t\t=            NHAN VIEN              =\n");
+	fprintf(file,"\t\t\t\t\t=====================================\n\n\n");
+	while(p2 != NULL) {
+		fprintf(file,"\n\n");
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		fprintf(file,"\t\t\t\t~               NHAN VIEN THU: %2d                    ~\n",i);
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		fprintf(file,"\t\t\t\t          Ho va ten: %s\n",p2->data2.name.c_str());
+		fprintf(file,"\t\t\t\t          Ngay sinh: %2d/%2d/%4d\n",p2->data2.NgaySinh.date,p2->data2.NgaySinh.month,p2->data2.NgaySinh.year);
+		fprintf(file,"\t\t\t\t          SDT: %s\n",p2->data2.SDT.c_str());
+		fprintf(file,"\t\t\t\t          Dia chi: %15s\n",p2->data2.Diachi.c_str());
+		fprintf(file,"\t\t\t\t          Loai nhan vien: %15s\n",p2->data2.loainhanvien.c_str());
+		fprintf(file,"\t\t\t\t          Gio lam: %1d\n",p2->data2.soluonggio);
+		p2 = p2->next2;
+		i++;
 	}
 	fclose(file);
 	cout << "\n\t\t\tGHI FILE NHAN VIEN THANH CONG!!!";
 }
 
-void wpay (SList3 sl) {					//ham dua ra luong nhan vien trong danh sach dua theo ten
+void wpay (SList2 sl) {					//ham dua ra luong nhan vien trong danh sach dua theo ten
     string x;
     int dem=0;
     fflush (stdin);
     cout<<"Nhap ten nhan vien can tim :";
     getline(cin,x);
-    Node3*p3 = sl.head3;
-    while (p3 != NULL) {
-        if(x.compare(p3->data3.getname())==0) {    
+    Node2 *p2 = sl.head2;
+    while (p2 != NULL) {
+        if(x.compare(p2->data2.getname())==0) {    
             cout<< std::setprecision(20);
-            cout<<p3->data3;
-            cout<<"\t\t\tLuong: "<<p3->data3.GiaTien() <<"d";
+            cout<<p2->data2;
+            cout<<"\t\t\tLuong: "<<p2->data2.GiaTien() <<"d";
             dem++;
         }
-		p3=p3->next3;
+		p2=p2->next2;
     }
     if(dem==0) {
 			cout<<"\n\t\t\tKhong tim thay nhan vien.";
@@ -547,7 +579,193 @@ void wpay (SList3 sl) {					//ham dua ra luong nhan vien trong danh sach dua the
     Beep(523,500);
     cin.get(); 
 }
-
+//TODO:CLASS NGUYEN LIEU
+class NguyenLieu {
+    private: 
+    	Date d;
+        float Coffee,Tra,Sua,Da,LyDung;
+    public:
+    	NguyenLieu()
+    	{
+    		d.date=d.month=d.year=0;
+    		Coffee=Tra=Sua=Da=LyDung=0;
+    	}
+    	Date getdate(){
+    		return d;
+		}
+        friend istream &operator >> ( istream &in, NguyenLieu &nl);
+        friend ostream &operator << ( ostream &fileout, NguyenLieu nl);
+        float GiaMotNgay();    
+		friend void GhiFileNguyenLieu(SList3 l);  
+};
+istream &operator >> ( istream &in, NguyenLieu &nl){
+    NhapDate(nl.d);
+    cout<<"\t\tNhap so luong nguyen lieu: "<<endl;
+    cout<<"\tCoffee: ";
+    in>>nl.Coffee;
+    cout<<"\tTra: ";
+    in>>nl.Tra;
+    cout<<"\tSua: ";
+    in>>nl.Sua;
+    cout<<"\tDa: ";
+    in>>nl.Da;
+    cout<<"\tLy dung: ";
+    in>>nl.LyDung;
+    return in;
+}
+ostream &operator << ( ostream &out, NguyenLieu nl){
+    out<<"\t\t\tDate:";
+    XuatDate(nl.d);
+    out<<"\t\t\tSo luong nguyen lieu da dung: "<<endl;
+    out<<"\t\t\tCoffee: "<<nl.Coffee<<endl;
+    out<<"\t\t\tTra: "<<nl.Tra<<endl;
+    out<<"\t\t\tSua: "<<nl.Sua<<endl;
+    out<<"\t\t\tDa: "<<nl.Da<<endl;
+    out<<"\t\t\tLy dung: "<<nl.LyDung<<endl;
+    return out;
+}
+float NguyenLieu::GiaMotNgay() {
+    float GiaNguyenLieu;
+    GiaNguyenLieu=80000*Coffee + 30000*Tra + 20000*Sua + 10000*Da + 10000*LyDung;
+    return GiaNguyenLieu;
+}
+//ham tao mot struct node
+struct Node3 { 
+    NguyenLieu data3;
+    struct Node3 *next3;
+};
+//ham tao mot struct list
+struct SList3 {
+    Node3 *head3;
+    Node3 *tail3;
+    long size3;
+};
+// ham list rong
+void KhoiTaoListRong( SList3 &l) {
+    l.head3 = NULL;
+    l.tail3 = NULL;
+    l.size3 = 0;
+}
+// ham tao node 
+Node3* KhoiTaoNodeRong () {
+	NguyenLieu x;
+    Node3 *p= new Node3; // cap phat vung nho cho node p
+    if(p == NULL){
+        cout<<"Khong du bo nho de cap phat";
+        return NULL;
+    }
+    else {
+    	cin >>x;
+        p->data3 = x; // truyen gia tri x vao cho data
+        p->next3 = NULL; //p chua tro toi node khac
+        return p;
+    }
+}
+void ThemVaoCuoi(SList3 &l, Node3 *p){
+    if(l.head3 == NULL){
+        l.head3=l.tail3=p;
+    }
+    else{
+        l.tail3->next3=p; // cho con tro pTail lien ket với node p
+        l.tail3=p; // cap nhat lai la node cuoi
+    }
+    l.size3= l.size3 +1;
+}
+//ham xuat danh sach nguyen lieu
+void XuatDSNL(SList3 l) {				
+	Node3* p =l.head3;
+	if(p==NULL) {
+		cout<<"\n\t\t\tDanh sach rong.";
+		cout<<"\n\t\t\t\7NHAN PHIM 1 DE NHAP DANH SACH.";
+	}
+	if(p != NULL) {
+		int i=0;
+		cout<<endl<<"\t\t\t\tDANH SACH NGUYEN LIEU:";
+		while (p != NULL) {
+			cout<<endl<<"\t\t\t--------------------------------\n";
+			cout<<"\n\t\t\t\tNGAY THU "<<i+1<<endl;
+			cout<<(p->data3);
+			i++;
+			p = p->next3;
+		}
+		cout << endl;
+		Beep(523,500);
+	    cin.get(); 
+		}
+	delete p;
+}
+//ham ghi file nguyen lieu
+void GhiFileNguyenLieu(SList3 l) {			//ghi file nguyen lieu
+	FILE *file = fopen("NguyenLieu.txt","w");
+	Node3 *p=l.head3; 
+		fprintf(file,"\t\t\t\t\t=====================================\n");
+		fprintf(file,"\t\t\t\t\t=            NGUYEN LIEU            =\n");
+		fprintf(file,"\t\t\t\t\t=====================================\n\n\n");
+	while(p != NULL) {
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		fprintf(file,"\t\t\t\t~                     Ngay: %2d/%2d/%4d               ~\n",p->data3.d.date,p->data3.d.month,p->data3.d.year);
+		fprintf(file,"\t\t\t\t~   STT    |   Ten nguyen lieu    |      So luong    ~\n");
+		fprintf(file,"\t\t\t\t~    1     |         Cafe         |        %.2f      ~\n",p->data3.Coffee);
+		fprintf(file,"\t\t\t\t~    2     |         Tra          |        %.2f      ~\n",p->data3.Tra);
+		fprintf(file,"\t\t\t\t~    3     |         Sua          |        %.2f      ~\n",p->data3.Sua);
+		fprintf(file,"\t\t\t\t~    4     |         Da           |        %.2f      ~\n",p->data3.Da);
+		fprintf(file,"\t\t\t\t~    5     |         Ly dung      |        %.2f      ~\n",p->data3.LyDung);
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		p = p->next3;
+	}
+	fclose(file);
+	cout << "\n\t\t\tGHI FILE NGUYEN LIEU THANH CONG!!!";
+}
+void TongTien(SList3 l){
+	float Tong=0;
+	Node3 *p=l.head3;
+	if(p==NULL){
+		cout << "\n\t\t\t\7Danh sach dang rong.";
+		cout << "\n\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
+	}
+	else {
+		while(p!=NULL){
+			Tong = Tong + p->data3.GiaMotNgay();
+			p=p->next3;
+		}
+		Beep(523,500);  
+		cin.get();
+		cout<< std::setprecision(20);
+		cout << "\n\t\t\tTong tien nguyen lieu la: " <<Tong<<"d";
+	}	
+}
+void SuaDoi3(SList3 l)				//ham chinh sua 1 ngay trong danh sach
+{	
+	Node3 *p=l.head3;
+	if(p == NULL)
+	{
+		cout << "\n\t\t\t\t\7Danh sach rong.";
+		cout << "\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
+	}
+	if(p != NULL)
+	{
+		Date m;
+		cout<<"Nhap Date can chinh sua: ";
+		NhapDate(m);
+		int dem = 0;
+		while(p != NULL)
+		{
+			if(SS(p->data3.getdate(),m)==1)
+			{
+				Beep(523,500);
+	    		cin.get(); 
+				cin >> p->data3;
+				dem++;
+			}
+			p = p->next3;
+		}
+		if(dem == 0)
+		{
+			cout << "\n\t\t\t\7Khong co ngay trong danh sach";
+			cout << "\n\t\t\tNHAN PHIM 2 DE TIM LAI.";
+		}
+	}
+}
 //ham tao tieu de
 void TieuDe() {
 	gotoxy(10,5);
@@ -589,7 +807,9 @@ void menuChung() {
 	cout<<"1.Khach hang.";
 	gotoxy(34,17);
 	cout<<"2.Nhan vien.";
-	gotoxy(26.5,18);
+	gotoxy(34,18);
+	cout<<"3.Nguyen lieu.";
+	gotoxy(26.5,19);
 	cout<<"Nhap doi tuong muon xu ly: ";
 	cin>>n;
 	if(n==1) {
@@ -600,9 +820,13 @@ void menuChung() {
 		system("cls");
 		menu2();
 	}
+	else if(n==3) {
+		system("cls");
+		menu3();
+	}
 	else {
 		cout<<"\n\n\t\t\t\t\7MOI BAN NHAN LAI:";
-		sleep(3); 			//keo dai time hien thi dong chu
+		sleep(1); 			//keo dai time hien thi dong chu
 		menuChung();
 	}
 }
@@ -666,8 +890,8 @@ void menu1() {
 void menu2() {
 	system("cls");
 	int luachon;
-	SList3 sl;
-	SList3rong(sl);
+	SList2 sl;
+	SList2rong(sl);
     gotoxy(11,6);
 	cout<<"=========================================================="; gotoxy(11,7);
 	cout<<"=               Nhap 1: Nhap DS nhan vien.               ="; gotoxy(11,8);
@@ -690,7 +914,7 @@ void menu2() {
 			cin>>n;
 			for(int j=0;j<n;j++) {
 				cout<<"\n\t\tNHAN VIEN THU "<<++i<<":"<<endl;
-				Node3*p3=TaoNode3();
+				Node2 *p3=TaoNode2();
 				addLast(sl,p3);
 			}
 		}
@@ -717,6 +941,61 @@ void menu2() {
 			menuChung();
 		}
 		else if(luachon==9) {
+			exit(0);
+		}
+		else {
+			cout<<"\n\t\tLua chon khong hop le. Vui long chon lai!";
+		}
+	}
+}
+
+void menu3() {
+	system("cls");
+	int luachon;
+	SList3 l;
+	KhoiTaoListRong(l);
+    gotoxy(11,1);
+	cout<<"=========================================================="; gotoxy(11,2);
+	cout<<"=               Nhap 1: Nhap DS nguyen lieu.             ="; gotoxy(11,3);
+	cout<<"=               Nhap 2: Chinh sua nguyen lieu.           ="; gotoxy(11,4);
+	cout<<"=               Nhap 3: Xuat DS nguyen lieu.             ="; gotoxy(11,5);
+	cout<<"=               Nhap 4: Ghi file nguyen lieu.            ="; gotoxy(11,6);
+	cout<<"=               Nhap 5: Tong tien nguyen lieu.           ="; gotoxy(11,7);
+	cout<<"=               Nhap 6: Tro ve menu chinh.       	    ="; gotoxy(11,8);
+	cout<<"=               Nhap 7: Thoat chuong trinh.       	    ="; gotoxy(11,9);
+	cout<<"=========================================================="; gotoxy(11,10);
+
+	cout<<"Nhap lua chon: ";
+	while (1) {
+		cout<<endl<<"Nhap chuc nang: ";
+		cin>>luachon;
+		if(luachon==1) {
+			int n,i=0;
+			cout<<"Nhap so luong nguyen lieu:";
+			cin>>n;
+			for(int j=0;j<n;j++) {
+				cout<<"\n\t\tNGUYEN LIEU THU "<<++i<<":"<<endl;
+				Node3 *p=KhoiTaoNodeRong();
+				ThemVaoCuoi(l,p);
+			}
+		}
+		else if(luachon==2) {
+			SuaDoi3(l);
+		}
+		else if(luachon==3) {
+			XuatDSNL(l);
+		}
+		else if(luachon==4) {
+			GhiFileNguyenLieu(l);
+		}
+		else if(luachon==5) {
+			TongTien(l);
+		}
+		else if(luachon==6) {
+			system("cls");
+			menuChung();
+		}
+		else if(luachon==7) {
 			exit(0);
 		}
 		else {

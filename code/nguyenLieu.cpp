@@ -30,11 +30,7 @@ int SS(Date d1,Date d2){
 class NguyenLieu {
     private: 
     	Date d;
-        int Coffee;
-        int Tra;
-        int Sua;
-        int Da;
-        int LyDung;
+        float Coffee,Tra,Sua,Da,LyDung;
     public:
     	NguyenLieu()
     	{
@@ -151,23 +147,19 @@ void XuatDSNL(LIST l) {
 void GhiFileNguyenLieu(LIST l) {			//ghi file nguyen lieu
 	FILE *file = fopen("NguyenLieu.txt","w");
 	NODE *p=l.pHead; 
+		fprintf(file,"\t\t\t\t\t=====================================\n");
+		fprintf(file,"\t\t\t\t\t=            NGUYEN LIEU            =\n");
+		fprintf(file,"\t\t\t\t\t=====================================\n\n\n");
 	while(p != NULL) {
-		fprintf(file,"\n------------------------------------------------------------------");
-		fprintf(file,"\n||                     THONG TIN NGUYEN LIEU                    ||");
-        fprintf(file,"\n    Date: %1d/%1d/%4d                                           ",p->data.d);
-        fprintf(file,"\n      ------------------------------------------------------    ");
-        fprintf(file,"\n   STT:  |          Ten nguyen lieu:       |         So luong:  ");
-        fprintf(file,"\n     1   |           Coffee                |        %0d         ",p->data.Coffee);
-        fprintf(file,"\n     2   |           Tra                   |        %0d         ",p->data.Tra);
-        fprintf(file,"\n     3   |           Sua                   |        %0d         ",p->data.Sua);
-        fprintf(file,"\n     4   |           Da                    |        %0d         ",p->data.Da);
-        fprintf(file,"\n     5   |           Ly dung               |        %0d         ",p->data.LyDung);
-        fprintf(file,"\n||                                                              ||");
-        fprintf(file,"\n||                     ---------------------                    ||");
-        fprintf(file,"\n------------------------------------------------------------------");
-        fprintf(file,"\n__________________________________________________________________\n");
-       
-
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		fprintf(file,"\t\t\t\t~                     Ngay: %2d/%2d/%4d               ~\n",p->data.d.date,p->data.d.month,p->data.d.year);
+		fprintf(file,"\t\t\t\t~   STT    |   Ten nguyen lieu    |      So luong    ~\n");
+		fprintf(file,"\t\t\t\t~    1     |         Cafe         |        %.2f      ~\n",p->data.Coffee);
+		fprintf(file,"\t\t\t\t~    2     |         Tra          |        %.2f      ~\n",p->data.Tra);
+		fprintf(file,"\t\t\t\t~    3     |         Sua          |        %.2f      ~\n",p->data.Sua);
+		fprintf(file,"\t\t\t\t~    4     |         Da           |        %.2f      ~\n",p->data.Da);
+		fprintf(file,"\t\t\t\t~    5     |         Ly dung      |        %.2f      ~\n",p->data.LyDung);
+		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		p = p->pNext;
 	}
 	fclose(file);
@@ -191,7 +183,7 @@ void TongTien(LIST l){
 		cout << "\n\t\t\tTong tien nguyen lieu la: " <<Tong<<"d";
 	}	
 }
-/*void ChinhSua(LIST l)				//ham chinh sua 1 ngay trong danh sach
+void ChinhSua(LIST l)				//ham chinh sua 1 ngay trong danh sach
 {	
 	NODE *p=l.pHead;
 	if(p == NULL)
@@ -207,7 +199,7 @@ void TongTien(LIST l){
 		int dem = 0;
 		while(p != NULL)
 		{
-			if(p->data.getDate() == m)
+			if(SS(p->data.getdate(),m)==1)
 			{
 				Beep(523,500);
 	    		cin.get(); 
@@ -218,11 +210,11 @@ void TongTien(LIST l){
 		}
 		if(dem == 0)
 		{
-			cout << "\n\t\t\t\7Khong co Date trong danh sach";
+			cout << "\n\t\t\t\7Khong co ngay trong danh sach";
 			cout << "\n\t\t\tNHAN PHIM 2 DE TIM LAI.";
 		}
 	}
-}*/
+}
   int main(){
     LIST l;
     NguyenLieu nl;
@@ -235,6 +227,7 @@ void TongTien(LIST l){
 		NODE *p=KhoiTaoNodeRong();
 		ThemVaoCuoi(l,p);
 	}
+	ChinhSua(l);
     XuatDSNL(l);
     GhiFileNguyenLieu(l);
     TongTien(l);
