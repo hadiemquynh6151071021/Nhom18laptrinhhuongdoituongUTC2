@@ -971,10 +971,10 @@ void menu3() {
 		cin>>luachon;
 		if(luachon==1) {
 			int n,i=0;
-			cout<<"Nhap so luong nguyen lieu:";
+			cout<<"Nhap so ngay su dung nguyen lieu:";
 			cin>>n;
 			for(int j=0;j<n;j++) {
-				cout<<"\n\t\tNGUYEN LIEU THU "<<++i<<":"<<endl;
+				cout<<"\n\t\tNGUYEN LIEU NGAY THU "<<++i<<":"<<endl;
 				Node3 *p=KhoiTaoNodeRong();
 				ThemVaoCuoi(l,p);
 			}
