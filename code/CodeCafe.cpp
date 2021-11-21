@@ -309,7 +309,7 @@ void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
 	FILE *file = fopen("KhachHang.txt","w");
 	Node *p=l.head; 
 	fprintf(file,"\t\t\t\t\t=====================================\n");
-	fprintf(file,"\t\t\t\t\t=            KHACH HANG             =\n");
+	fprintf(file,"\t\t\t\t\t=        DANH SACH KHACH HANG       =\n");
 	fprintf(file,"\t\t\t\t\t=====================================\n\n\n");
 	while(p != NULL) {
 		fprintf(file,"\n\n");
@@ -536,7 +536,7 @@ void GhiFileNhanVien(SList2 sl) {			//ghi file nhan vien
 	FILE *file = fopen("NhanVien.txt","w");
 	Node2 *p2=sl.head2; 
 	fprintf(file,"\t\t\t\t\t=====================================\n");
-	fprintf(file,"\t\t\t\t\t=            NHAN VIEN              =\n");
+	fprintf(file,"\t\t\t\t\t=        DANH SACH NHAN VIEN        =\n");
 	fprintf(file,"\t\t\t\t\t=====================================\n\n\n");
 	while(p2 != NULL) {
 		fprintf(file,"\n\n");
@@ -699,7 +699,7 @@ void GhiFileNguyenLieu(SList3 l) {			//ghi file nguyen lieu
 	FILE *file = fopen("NguyenLieu.txt","w");
 	Node3 *p=l.head3; 
 		fprintf(file,"\t\t\t\t\t=====================================\n");
-		fprintf(file,"\t\t\t\t\t=            NGUYEN LIEU            =\n");
+		fprintf(file,"\t\t\t\t\t=        DANH SACH NGUYEN LIEU      =\n");
 		fprintf(file,"\t\t\t\t\t=====================================\n\n\n");
 	while(p != NULL) {
 		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
