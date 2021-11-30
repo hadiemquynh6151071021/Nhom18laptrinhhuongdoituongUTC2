@@ -98,8 +98,6 @@ Date KhachHang::getnm() {						//ham lay ngay mua
 
 istream & operator >> (istream &is, KhachHang &k ) {			//nhap 1 khach hang ghi vao file
 	fflush(stdin);
-	cout << "\tNhap ma khach hang: " ;
-	getline(is,k.MKH);
 	k.Nhapthongtin();
 	cout << "\tNhap ngay mua: " ;
 	NhapDate(k.NgayMua);
@@ -115,7 +113,6 @@ istream & operator >> (istream &is, KhachHang &k ) {			//nhap 1 khach hang ghi v
 }
 
 ostream & operator << (ostream &os, KhachHang &k ) {	//nap chong toan tu xuat 1 kh
-	os << "\t\t\tMa khach hang: " << k.MKH << endl;
 	k.Xuatthongtin();
 	cout << "\t\t\tNgay mua: ";
 	XuatDate(k.NgayMua);
@@ -316,7 +313,7 @@ void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
 		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		fprintf(file,"\t\t\t\t~                 KHACH HANG THU: %2d                 ~\n",i);
 		fprintf(file,"\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-		fprintf(file,"\t\t\t\t         	   Ma khach hang: %s\n",p->data.MKH.c_str());
+		fprintf(file,"\t\t\t\t             Ma khach hang: %2d\n",i);
 		fprintf(file,"\t\t\t\t             Ngay sinh: %2d/%2d/%4d\n",p->data.NgaySinh.date,p->data.NgaySinh.month,p->data.NgaySinh.year);
 		fprintf(file,"\t\t\t\t             SDT: %s\n",p->data.SDT.c_str());
 		fprintf(file,"\t\t\t\t             Ngay mua: %2d/%2d/%4d\n",p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year);
