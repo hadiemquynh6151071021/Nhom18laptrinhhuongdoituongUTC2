@@ -318,8 +318,8 @@ void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
 		fprintf(file,"\t\t\t\t             SDT: %s\n",p->data.SDT.c_str());
 		fprintf(file,"\t\t\t\t             Ngay mua: %2d/%2d/%4d\n",p->data.NgayMua.date,p->data.NgayMua.month,p->data.NgayMua.year);
 		fprintf(file,"\t\t\t\t             So luong: %d\n",p->data.SoLuong);
-		for(int i=1;i<=p->data.SoLuong;i++) {
-			fprintf(file,"\t\t\t\t\t\t%15s\n",p->data.MatHang[i].c_str());
+		for(int j=1;j<=p->data.SoLuong;j++) {
+			fprintf(file,"\t\t\t\t\t\t%15s\n",p->data.MatHang[j].c_str());
 		}
 		i++;
 		p = p->next;
