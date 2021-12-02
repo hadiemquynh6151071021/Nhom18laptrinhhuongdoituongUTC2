@@ -1,7 +1,7 @@
 #include<iostream>
 #include<iomanip>				//thu vien de co the in ra tien trieu
 #include<string>				//thu vien de so sanh hai chuoi
-#include<windows.h>				//thu vien de tao am thanh, di chuyen con tro
+#include<windows.h>				//thu vien de tao am thanh
 #include<unistd.h>				// chay sleep
 #include <stdio.h>
 using namespace std;
@@ -12,14 +12,6 @@ void menu3();
 struct SList1;
 struct SList2;
 struct SList3;
-
-void gotoxy(int x, int y)  {		//ham di chuyen con tro
-    static HANDLE h = NULL;  
-    if(!h)
-        h = GetStdHandle(STD_OUTPUT_HANDLE);
-    COORD c = { x, y };  
-    SetConsoleCursorPosition(h,c);
-}
 struct Date {						//struct ngay thang nam
 	int date, month, year;
 };
@@ -34,10 +26,10 @@ bool KtraDate(int date,int month,int year){
     if(month==2){
 		if(year %4 ==0 && year !=0){
         	if(date <= 29) return true;
-    }  
+    	}  
     	else{
         	if(date <= 28) return true;
-    }
+    	}
 	}
 }
 void ktraSoLuong(int &k){
@@ -97,6 +89,14 @@ class Nguoi {
 		string SDT,Diachi;
 		Date NgaySinh;
 	public:										//them ham khoi tao
+		Nguoi (){
+			this->SDT=" ";
+			this->Diachi=" ";
+			this->NgaySinh.date=0;
+			this->NgaySinh.month=0;
+			this->NgaySinh.year=0;
+		}
+		~Nguoi(){}
 		Date getns() {							//ham lay ngay sinh
 			Date t;
 			t.date=NgaySinh.date;
@@ -133,6 +133,14 @@ class KhachHang: public Nguoi {//muc dich ke thua private
 		string MKH,MatHang[20];
 		Date NgayMua;
 	public:		//thieu ham tao va huy
+	KhachHang(){
+			this->SoLuong=0;
+			this->MKH=" ";
+			this->NgayMua.date=0;
+			this->NgayMua.month=0;
+			this->NgayMua.year=0;
+		}
+		~KhachHang(){}
 		string getMKH();
 		Date getnm();
 		friend istream & operator >> (istream &is, KhachHang &k );
@@ -425,6 +433,13 @@ class NhanVien:private Nguoi {
 		string name,loainhanvien;
         int soluonggio;
     public:
+		NhanVien(){
+			this->name="";
+			this->loainhanvien="";
+			this->soluonggio=0;
+		}
+		~NhanVien(){
+		}
      	friend istream & operator >> (istream &is, NhanVien & n);
 		friend ostream & operator << (ostream &os, NhanVien & n);
 		friend void GhiFileNhanVien(SList2 sl);
@@ -438,13 +453,13 @@ string NhanVien::getname() {			//ham lay ten nhan vien
 
 float NhanVien::GiaTien() {				//ham tinh luong 1 nhan vien
     float ftienluong = 1;
-    string a = "Full time";
-    string b = "Part time";
-    if(loainhanvien.compare(a) == 0) {
+    string a = "FULL TIME";
+    string b = "PART TIME";
+    if(checkstring(loainhanvien,a)) {
         ftienluong = ( 27000*soluonggio*7);
        
     }
-    else if(loainhanvien.compare(b) == 0) {
+    else if(checkstring(loainhanvien,b)) {
         ftienluong = (17000*soluonggio*7);
     }
     return ftienluong;    
@@ -684,6 +699,8 @@ class NguyenLieu {
     		d.date=d.month=d.year=0;
     		Coffee=Tra=Sua=Da=LyDung=0;
     	}
+		~NguyenLieu(){
+		}
     	Date getdate(){
     		return d;
 		}
