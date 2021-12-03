@@ -115,25 +115,25 @@ class Nguoi {
 			getline(cin,Diachi);
 		}
 		void Xuatthongtin() {					//ham xuat 1 nguoi
-			cout << "\n\t\t\tNgay Sinh: ";
+			cout << "\n\t\t\t\t\t\t\t\t\t\tNgay Sinh: ";
 			XuatDate(NgaySinh);
-			cout << "\t\t\tSo dien thoai: " << SDT << endl ;
-			cout << "\t\t\tDia chi: " << Diachi <<endl;
+			cout << "\t\t\t\t\t\t\t\t\t\tSo dien thoai: " << SDT << endl ;
+			cout << "\t\t\t\t\t\t\t\t\t\tDia chi: " << Diachi <<endl;
 		}
 		friend void GhiFileKhachHang(SList1 l);
 		friend void GhiFileNhanVien(SList2 sl);
 		friend void GhiFileNguyenLieu(SList3 l);
-		virtual float GiaTien()=0;				//ham thuan ao tinh tien	//tinh tru tuong
+		virtual float GiaTien()=0;				//ham thuan ao tinh tien	//tinh truu tuong,dong goi
 };
 
 //TODO: CLASS KHACH HANG
 class KhachHang: public Nguoi {//muc dich ke thua private
 	private:
 		int SoLuong;
-		string MKH,MatHang[20];
+		string MKH,*MatHang = new string[20];
 		Date NgayMua;
 	public:		//thieu ham tao va huy
-	KhachHang(){
+		KhachHang(){
 			this->SoLuong=0;
 			this->MKH=" ";
 			this->NgayMua.date=0;
@@ -180,13 +180,13 @@ istream & operator >> (istream &is, KhachHang &k ) {			//nhap 1 khach hang ghi v
 }
 
 ostream & operator << (ostream &os, KhachHang &k ) {	//nap chong toan tu xuat 1 kh
-	os<<"\n\t\t\tMa khach hang: "<<k.MKH;
+	os<<"\n\t\t\t\t\t\t\t\t\t\tMa khach hang: "<<k.MKH;
 	k.Xuatthongtin();
-	os << "\t\t\tNgay mua: ";
+	os << "\t\t\t\t\t\t\t\t\t\tNgay mua: ";
 	XuatDate(k.NgayMua);
-	os << "\t\t\tSo luong: " << k.SoLuong << endl ;
+	os << "\t\t\t\t\t\t\t\t\t\tSo luong: " << k.SoLuong << endl ;
 	for (int i=0; i < k.SoLuong; i++) {
-			os << "\t\t\tTen mon " << i+1 << ":" << k.MatHang[i] << endl;
+			os << "\t\t\t\t\t\t\t\t\t\tTen mon " << i+1 << ":" << k.MatHang[i] << endl;
 	}
 	return os;
 }
@@ -203,13 +203,16 @@ int SS(Date d1,Date d2){
 	}
 	else return 0;
 }
-bool checkstring(string a, string b){
+string Uppercase(string a){
 	for( int i=0;i<a.length();i++){
 		if(a[i]>=97 && a[i]<=122){
 			a[i]=a[i]-32;
 		}
 	}
-	if(a==b){
+	return a;	
+}
+bool checkstring(string a, string b){
+	if(Uppercase(a) == Uppercase(b)){
 		return true;
 	}
 	else
@@ -249,7 +252,7 @@ float KhachHang::GiaTien() {						//ham tinh tien 1 kh
 			Tong += Gia[i];	
 	}
 	if (SoSanh(getns(),getnm())) {
-		cout << "\t(Uu dai 15% nhan dip sinh nhat):\t";
+		cout << "\n\t\t\t\t\t\t\t\t\t\t(Uu dai 15% nhan dip sinh nhat):";
 		return Tong-((Tong*15)/100);
 	}
 	else {
@@ -299,8 +302,8 @@ void Themcuoi1 (SList1 &l, Node *p) {		//ham them mot node vao cuoi danh sach
 		}
 		else {
 			if(SearchMKH(l,p->data.getMKH())){
-				cout<<"\n\t\t\tMA KHACH HANG BI TRUNG\n";
-				cout<<"\n\t\t\tMoi nhap lai!\n";
+				cout<<"\n\t\t\t\t\t\t\t\t\t\tMA KHACH HANG BI TRUNG\n";
+				cout<<"\n\t\t\t\t\t\t\t\t\t\tMoi nhap lai!\n";
 				Node *q=Taonode1();
 				Themcuoi1(l,q);
 			}
@@ -317,8 +320,8 @@ void SuaDoi1(SList1 l)						//ham chinh sua 1 khach hang trong danh sach
 	Node *p=l.head;
 	if(p == NULL)
 	{
-		cout << "\n\t\t\t\t\7Danh sach rong.";
-		cout << "\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach rong.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
 	}
 	if(p != NULL)
 	{
@@ -329,7 +332,7 @@ void SuaDoi1(SList1 l)						//ham chinh sua 1 khach hang trong danh sach
 		int dem = 0;
 		while(p != NULL)
 		{
-			if(p->data.getMKH() == m)
+			if(Uppercase(p->data.getMKH()) == Uppercase(m))
 			{
 				Beep(523,500); 			 //lenh tao am thanh
 	    		cin.get(); 
@@ -340,8 +343,8 @@ void SuaDoi1(SList1 l)						//ham chinh sua 1 khach hang trong danh sach
 		}
 		if(dem == 0)
 		{
-			cout << "\n\t\t\t\7Khong co khach hang trong danh sach";
-			cout << "\n\t\t\tNHAN PHIM 2 DE TIM LAI.";
+			cout << "\n\t\t\t\t\t\t\t\t\t\t\7Khong co khach hang trong danh sach";
+			cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 2 DE TIM LAI.";
 		}
 	}
 }
@@ -349,15 +352,15 @@ void SuaDoi1(SList1 l)						//ham chinh sua 1 khach hang trong danh sach
 void XuatDSKH (SList1 l)  {				//ham xuat mot danh sach
 	Node* p = l.head;
 	if(p == NULL) {
-		cout << "\n\t\t\t\t\7Danh sach rong.";
-		cout << "\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";	
+		cout << "\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach rong.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";	
 	}
 	if(p != NULL) {
 		int i=0;
-		cout << endl << "\t\t\t\tDANH SACH KHACH HANG:";
+		cout << endl << "\t\t\t\t\t\t\t\t\t\t\tDANH SACH KHACH HANG:";
 		while (p != NULL) {
-			cout << endl << "\t\t\t--------------------------------\n";
-			cout << "\n\t\t\t\tKHACH HANG THU " << i+1 << endl;
+			cout << endl << "\t\t\t\t\t\t\t\t\t\t--------------------------------\n";
+			cout << "\n\t\t\t\t\t\t\t\t\t\t\tKHACH HANG THU " << i+1 << endl;
 			cout << (p->data);
 			i++;
 			p = p->next;
@@ -376,24 +379,24 @@ void Hoadon (SList1 &l) {				//ham in hoa don 1 kh dua vao tim kiem mkh
 	getline(cin,x);
 	Node* p = l.head;
 	if(p==NULL) {
-		cout << "\n\t\t\t\7Danh sach dang trong.";
-		cout << "\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach dang trong.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
 		int dem=0;
 		while (p != NULL) {	
-			if(x.compare(p->data.getMKH())==0) {
+			if(Uppercase(x)==Uppercase(p->data.getMKH())) {
 				Beep(523,500);  
 	    		cin.get(); 
 				cout << p->data;
-				cout << "\t\t\tGia Tien thanh toan: " << p->data.GiaTien() << "VND";
+				cout << "\t\t\t\t\t\t\t\t\t\tGia Tien thanh toan: " << p->data.GiaTien() << "VND";
 				dem++;
 			}
 			p = p->next;
 		}
 		if(dem==0) {
-			cout << "\n\t\t\t\7Khong co khach hang trong danh sach";
-			cout << "\n\t\t\tNHAN PHIM 3 DE TIM LAI.";
+			cout << "\n\t\t\t\t\t\t\t\t\t\t\7Khong co khach hang trong danh sach";
+			cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 3 DE TIM LAI.";
 		}
 	}
 }
@@ -424,11 +427,11 @@ void GhiFileKhachHang(SList1 l) {					//ghi danh sach vao tep
 	fclose(file);
 	Beep(523,500);
 	cin.get();
-	cout << "\n\t\t\tGHI FILE KHACH HANG THANH CONG!!!";
+	cout << "\n\t\t\t\t\t\t\t\t\t\tGHI FILE KHACH HANG THANH CONG!!!";
 	
 }
 //TODO: NHANVIEN //sap xep tang dan theo luong
-class NhanVien:private Nguoi {
+class NhanVien:public Nguoi {
 	private:
 		string name,loainhanvien;
         int soluonggio;
@@ -479,10 +482,10 @@ istream & operator >> (istream &is, NhanVien & n){			//nhap 1 nhan vien ghi vao 
 }
 
 ostream& operator << (ostream &os, NhanVien & n) {		//nap chong toan tu xuat 1 nhan vien
-    os<<"\t\t\tHo va ten :"<<n.name;
+    os<<"\t\t\t\t\t\t\t\t\t\tHo va ten :"<<n.name;
     n.Xuatthongtin();
-    os<<"\t\t\tLoai nhan vien :"<<n.loainhanvien<<endl;
-    os<<"\t\t\tSo luong gio:"<<n.soluonggio<<endl;
+    os<<"\t\t\t\t\t\t\t\t\t\tLoai nhan vien :"<<n.loainhanvien<<endl;
+    os<<"\t\t\t\t\t\t\t\t\t\tSo luong gio:"<<n.soluonggio<<endl;
     return os;
 }
 
@@ -531,23 +534,23 @@ void searchbyName(SList2 sl) {					//ham tim kiem nhan vien theo ten
     getline(cin,fname);
     Node2*p2 = sl.head2;
     if(p2 == NULL) {
-    	cout << "\n\t\t\t\7Danh sach dang trong.";
-    	cout << "\n\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
+    	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach dang trong.";
+    	cout << "\n\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
 		int dem=0;
 	    while ( p2!= NULL) {
-		    if(fname == p2->data2.getname()) {
+		    if(Uppercase(fname) == Uppercase(p2->data2.getname())) {
 				Beep(523,500);  
 	    		cin.get();	
-		        cout<<(p2->data2);
+		        cout<<endl<<(p2->data2);
 		        dem++;
 		  	}
 		    p2 = p2-> next2;    
 	    }
 	    if (dem==0) {
-	    	cout<<"\n\t\t\t\7Khong tim thay nhan vien.";
-	    	cout<<"\n\t\t\tNHAN PHIM 5 DE TIM LAI.";
+	    	cout<<"\n\t\t\t\t\t\t\t\t\t\t\7Khong tim thay nhan vien.";
+	    	cout<<"\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 5 DE TIM LAI.";
 	    }
 	}
 }
@@ -557,8 +560,8 @@ void MaxLuong(SList2 sl) {				//ham tim nhan vien luong cao nhat
 	Node2* p2 = sl.head2;
 	if(p2==NULL)
     {
-    	cout<<"\n\t\t\t\7Danh sach dang trong.";
-    	cout<<"\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
+    	cout<<"\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach dang trong.";
+    	cout<<"\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
 		NhanVien max = p2->data2;
@@ -572,11 +575,11 @@ void MaxLuong(SList2 sl) {				//ham tim nhan vien luong cao nhat
 		Beep(523,500);
 	    cin.get();
 		cout<<endl;
-		cout <<setw(56)<< "______________________________: "<<endl;
-		cout <<setw(56)<< "Nhan vien co luong cao nhat la: "<<endl;
+		cout << "\t\t\t\t\t\t\t\t\t\t______________________________ "<<endl;
+		cout << "\t\t\t\t\t\t\t\t\t\tNhan vien co luong cao nhat la: "<<endl;
 		cout << max;
 		cout<< std::setprecision(20);
-		cout<<"\t\t\tLuong: "<<max.GiaTien() <<"VND";		
+		cout<<"\t\t\t\t\t\t\t\t\t\tLuong: "<<max.GiaTien() <<"VND";		
 	}	
 }
 
@@ -585,8 +588,8 @@ void SuaDoi2(SList2 sl)				//ham chinh sua 1 nhan vien trong danh sach
 	Node2 *p2=sl.head2;
 	if(p2 == NULL)
 	{
-		cout << "\n\t\t\t\t\7Danh sach rong.";
-		cout << "\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach rong.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
 	}
 	if(p2 != NULL)
 	{
@@ -597,7 +600,7 @@ void SuaDoi2(SList2 sl)				//ham chinh sua 1 nhan vien trong danh sach
 		int dem = 0;
 		while(p2 != NULL)
 		{
-			if(p2->data2.getname() == m)
+			if(Uppercase(p2->data2.getname()) == Uppercase(m))
 			{
 				Beep(523,500);
 	    		cin.get(); 
@@ -608,8 +611,8 @@ void SuaDoi2(SList2 sl)				//ham chinh sua 1 nhan vien trong danh sach
 		}
 		if(dem == 0)
 		{
-			cout << "\n\t\t\t\7Khong nhan vien trong danh sach";
-			cout << "\n\t\t\tNHAN PHIM 2 DE TIM LAI.";
+			cout << "\n\t\t\t\t\t\t\t\t\t\t\7Khong nhan vien trong danh sach";
+			cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 2 DE TIM LAI.";
 		}
 	}
 }
@@ -617,16 +620,16 @@ void SuaDoi2(SList2 sl)				//ham chinh sua 1 nhan vien trong danh sach
 void XuatDSNV(SList2 sl) {				//ham xuat danh sach nhan vien
 	Node2* p2 = sl.head2;
 	if(p2==NULL) {
-		cout<<"\n\t\t\tDanh sach rong.";
-		cout<<"\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
+		cout<<"\n\t\t\t\t\t\t\t\t\t\t\tDanh sach rong.";
+		cout<<"\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
 		cout<<"\7";
 	}
 	if(p2 != NULL) {
 		int i=0;
-		cout<<endl<<"\t\t\t\tDANH SACH NHAN VIEN:";
+		cout<<endl<<"\t\t\t\t\t\t\t\t\t\t\tDANH SACH NHAN VIEN:";
 		while (p2 != NULL) {
-			cout<<endl<<"\t\t\t--------------------------------\n";
-			cout<<"\n\t\t\t\tNHAN VIEN THU "<<i+1<<endl;
+			cout<<endl<<"\t\t\t\t\t\t\t\t\t\t--------------------------------\n";
+			cout<<"\n\t\t\t\t\t\t\t\t\t\t\tNHAN VIEN THU "<<i+1<<endl;
 			cout<<(p2->data2);
 			i++;
 			p2 = p2->next2;
@@ -637,7 +640,6 @@ void XuatDSNV(SList2 sl) {				//ham xuat danh sach nhan vien
 	}
 	delete p2;
 }
-
 void GhiFileNhanVien(SList2 sl) {			//ghi file nhan vien
 	int i=1;
 	FILE *file = fopen("NhanVien.txt","w");
@@ -662,7 +664,7 @@ void GhiFileNhanVien(SList2 sl) {			//ghi file nhan vien
 	fclose(file);
 	Beep(523,500);
 	cin.get();
-	cout << "\n\t\t\tGHI FILE NHAN VIEN THANH CONG!!!";
+	cout << "\n\t\t\t\t\t\t\t\t\t\tGHI FILE NHAN VIEN THANH CONG!!!";
 }
 
 void wpay (SList2 sl) {					//ham dua ra luong nhan vien trong danh sach dua theo ten
@@ -673,21 +675,22 @@ void wpay (SList2 sl) {					//ham dua ra luong nhan vien trong danh sach dua the
     getline(cin,x);
     Node2 *p2 = sl.head2;
     while (p2 != NULL) {
-        if(x.compare(p2->data2.getname())==0) {    
+        if(Uppercase(x)==Uppercase(p2->data2.getname())){    
             cout<< std::setprecision(20);
             cout<<p2->data2;
-            cout<<"\t\t\tLuong: "<<p2->data2.GiaTien() <<"d";
+            cout<<"\t\t\t\t\t\t\t\t\t\tLuong: "<<p2->data2.GiaTien() <<"d";
             dem++;
         }
 		p2=p2->next2;
     }
     if(dem==0) {
-			cout<<"\n\t\t\tKhong tim thay nhan vien.";
-			cout<<"\n\t\t\tNHAN PHIM 4 DE TIM LAI.";
+			cout<<"\n\t\t\t\t\t\t\t\t\t\tKhong tim thay nhan vien.";
+			cout<<"\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 4 DE TIM LAI.";
 	}
     Beep(523,500);
     cin.get(); 
 }
+
 //TODO:CLASS NGUYEN LIEU
 class NguyenLieu {
     private: 
@@ -744,14 +747,14 @@ istream &operator >> ( istream &in, NguyenLieu &nl){
     return in;
 }
 ostream &operator << ( ostream &out, NguyenLieu nl){
-    out<<"\t\t\tDate:";
+    out<<"\t\t\t\t\t\t\t\t\t\tDate:";
     XuatDate(nl.d);
-    out<<"\t\t\tSo luong nguyen lieu da dung: "<<endl;
-    out<<"\t\t\tCoffee: "<<nl.Coffee<<endl;
-    out<<"\t\t\tTra: "<<nl.Tra<<endl;
-    out<<"\t\t\tSua: "<<nl.Sua<<endl;
-    out<<"\t\t\tDa: "<<nl.Da<<endl;
-    out<<"\t\t\tLy dung: "<<nl.LyDung<<endl;
+    out<<"\t\t\t\t\t\t\t\t\t\tSo luong nguyen lieu da dung: "<<endl;
+    out<<"\t\t\t\t\t\t\t\t\t\tCoffee: "<<nl.Coffee<<endl;
+    out<<"\t\t\t\t\t\t\t\t\t\tTra: "<<nl.Tra<<endl;
+    out<<"\t\t\t\t\t\t\t\t\t\tSua: "<<nl.Sua<<endl;
+    out<<"\t\t\t\t\t\t\t\t\t\tDa: "<<nl.Da<<endl;
+    out<<"\t\t\t\t\t\t\t\t\t\tLy dung: "<<nl.LyDung<<endl;
     return out;
 }
 float NguyenLieu::GiaMotNgay() {
@@ -805,15 +808,15 @@ void ThemVaoCuoi(SList3 &l, Node3 *p){
 void XuatDSNL(SList3 l) {				
 	Node3* p =l.head3;
 	if(p==NULL) {
-		cout<<"\n\t\t\tDanh sach rong.";
-		cout<<"\n\t\t\t\7NHAN PHIM 1 DE NHAP DANH SACH.";
+		cout<<"\n\t\t\t\t\t\t\t\t\t\t\tDanh sach rong.";
+		cout<<"\n\t\t\t\t\t\t\t\t\t\t\7NHAN PHIM 1 DE NHAP DANH SACH.";
 	}
 	if(p != NULL) {
 		int i=0;
-		cout<<endl<<"\t\t\t\tDANH SACH NGUYEN LIEU:";
+		cout<<endl<<"\t\t\t\t\t\t\t\t\t\t\tDANH SACH NGUYEN LIEU:";
 		while (p != NULL) {
-			cout<<endl<<"\t\t\t--------------------------------\n";
-			cout<<"\n\t\t\t\tNGAY THU "<<i+1<<endl;
+			cout<<endl<<"\t\t\t\t\t\t\t\t\t\t--------------------------------\n";
+			cout<<"\n\t\t\t\t\t\t\t\t\t\t\tNGAY THU "<<i+1<<endl;
 			cout<<(p->data3);
 			i++;
 			p = p->next3;
@@ -846,14 +849,14 @@ void GhiFileNguyenLieu(SList3 l) {			//ghi file nguyen lieu
 	fclose(file);
 	Beep(523,500);
 	cin.get();
-	cout << "\n\t\t\tGHI FILE NGUYEN LIEU THANH CONG!!!";
+	cout << "\n\t\t\t\t\t\t\t\t\t\tGHI FILE NGUYEN LIEU THANH CONG!!!";
 }
 void TongTien(SList3 l){
 	float Tong=0;
 	Node3 *p=l.head3;
 	if(p==NULL){
-		cout << "\n\t\t\t\7Danh sach dang rong.";
-		cout << "\n\n\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach dang rong.";
+		cout << "\n\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE THEM DANH SACH.";
 	}
 	else {
 		while(p!=NULL){
@@ -863,7 +866,7 @@ void TongTien(SList3 l){
 		Beep(523,500);  
 		cin.get();
 		cout<< std::setprecision(20);
-		cout << "\n\t\t\tTong tien nguyen lieu la: " <<Tong<<"VND";
+		cout << "\n\t\t\t\t\t\t\t\t\t\tTong tien nguyen lieu la: " <<Tong<<"VND";
 	}	
 }
 void SuaDoi3(SList3 l)				//ham chinh sua 1 ngay trong danh sach
@@ -871,8 +874,8 @@ void SuaDoi3(SList3 l)				//ham chinh sua 1 ngay trong danh sach
 	Node3 *p=l.head3;
 	if(p == NULL)
 	{
-		cout << "\n\t\t\t\t\7Danh sach rong.";
-		cout << "\n\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\t\t\7Danh sach rong.";
+		cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 1 DE NHAP DANH SACH.";
 	}
 	if(p != NULL)
 	{
@@ -893,38 +896,39 @@ void SuaDoi3(SList3 l)				//ham chinh sua 1 ngay trong danh sach
 		}
 		if(dem == 0)
 		{
-			cout << "\n\t\t\t\7Khong co ngay trong danh sach";
-			cout << "\n\t\t\tNHAN PHIM 2 DE TIM LAI.";
+			cout << "\n\t\t\t\t\t\t\t\t\t\t\7Khong co ngay trong danh sach";
+			cout << "\n\t\t\t\t\t\t\t\t\t\tNHAN PHIM 2 DE TIM LAI.";
 		}
 	}
 }
 //ham tao tieu de
 void TieuDe() {
 	cout<<endl<<endl;
-	cout<<setw(135)<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl; 
-	cout<<setw(135)<<"@                                                          @"<<endl; 
-	cout<<setw(135)<<"@                                                          @"<<endl; 
-	cout<<setw(135)<<"@          **     **  *****  **   **  **  **               @"<<endl; 
-	cout<<setw(135)<<"@          ** * * **  **     ** * **  **  **               @"<<endl; 
-	cout<<setw(135)<<"@          **  *  **  *****  **  ***  **  **               @"<<endl; 
-	cout<<setw(135)<<"@          **     **  **     **   **  **  **               @"<<endl; 
-	cout<<setw(135)<<"@          **     **  *****  **   **   ****                @"<<endl; 
-	cout<<setw(135)<<"@                                                          @"<<endl; 
-	cout<<setw(135)<<"@                                                          @"<<endl; 
-	cout<<setw(135)<<"@   Cafe den      :  35K           Cold brew     :   35K   @"<<endl; 
-	cout<<setw(135)<<"@   Bac siu       :  38K           Cafe sua      :   38K   @"<<endl; 
-	cout<<setw(135)<<"@   Cappuccino    :  40K           Americano     :   40K   @"<<endl; 
-	cout<<setw(135)<<"@   Tra matcha    :  55K           Tra vai       :   55K   @"<<endl; 
-	cout<<setw(135)<<"@   Tra hat sen   :  50K           Hong tra latte:   50K   @"<<endl; 
-	cout<<setw(135)<<"@   Tra dao cam sa:  59K           Tra sua mac ca:   59K   @"<<endl; 
-	cout<<setw(135)<<"@   Tra viet quoc :  60K           Tra sua oolong:   60K   @"<<endl; 
-	cout<<setw(135)<<"@                                                          @"<<endl; 
-	cout<<setw(135)<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl<<endl<<endl;
+	cout<<setw(120)<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl; 
+	cout<<setw(120)<<"@                                                          @"<<endl; 
+	cout<<setw(120)<<"@                                                          @"<<endl; 
+	cout<<setw(120)<<"@          **     **  *****  **   **  **  **               @"<<endl; 
+	cout<<setw(120)<<"@          ** * * **  **     ** * **  **  **               @"<<endl; 
+	cout<<setw(120)<<"@          **  *  **  *****  **  ***  **  **               @"<<endl; 
+	cout<<setw(120)<<"@          **     **  **     **   **  **  **               @"<<endl; 
+	cout<<setw(120)<<"@          **     **  *****  **   **   ****                @"<<endl; 
+	cout<<setw(120)<<"@                                                          @"<<endl; 
+	cout<<setw(120)<<"@                                                          @"<<endl; 
+	cout<<setw(120)<<"@   Cafe den      :  35K           Cold brew     :   35K   @"<<endl; 
+	cout<<setw(120)<<"@   Bac siu       :  38K           Cafe sua      :   38K   @"<<endl; 
+	cout<<setw(120)<<"@   Cappuccino    :  40K           Americano     :   40K   @"<<endl; 
+	cout<<setw(120)<<"@   Tra matcha    :  55K           Tra vai       :   55K   @"<<endl; 
+	cout<<setw(120)<<"@   Tra hat sen   :  50K           Hong tra latte:   50K   @"<<endl; 
+	cout<<setw(120)<<"@   Tra dao cam sa:  59K           Tra sua mac ca:   59K   @"<<endl; 
+	cout<<setw(120)<<"@   Tra viet quoc :  60K           Tra sua oolong:   60K   @"<<endl; 
+	cout<<setw(120)<<"@                                                          @"<<endl; 
+	cout<<setw(120)<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl<<endl<<endl;
 }
 
 void menuChung() {
 	system("cls");
 	int n;
+	cout<<endl<<endl<<endl;
 	cout<<setw(135)<<"........................................................................................."<<endl;	
 	cout<<setw(135)<<".%%%%%%..%%%%%%..%%%%%%..%%%%..%%%...%%%......%%%%%...%%%%%..%%%%%%.%%%%%%.%%%%%%.%%%%%%."<<endl;	
 	cout<<setw(135)<<".%%...%%.%%...%%.%%.....%%..%%.%%%%.%%%%.....%%%..%%.%%...%%.%%.....%%.....%%.....%%....."<<endl;	
@@ -951,7 +955,7 @@ void menuChung() {
 		menu3();
 	}
 	else {
-		cout<<"\n\n\t\t\t\t\7MOI BAN NHAN LAI:";
+		cout<<"\n\n\t\t\t\t\t\t\t\t\t\t\t\7MOI BAN NHAN LAI:";
 		sleep(1); 			//keo dai time hien thi dong chu
 		menuChung();
 	}
@@ -964,15 +968,15 @@ void menu1() {
 	SList1rong(l);
 	TieuDe();
     cout<<endl<<endl;
-	cout<<setw(135)<<"=========================================================="<<endl; 
-	cout<<setw(135)<<"=               Nhap 1: Nhap DS khach hang.              ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 2: Chinh sua khach hang.            ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 3: Xuat DS khach hang.              ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 4: Ghi file khach hang.             ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 5: Hoa don cua 1 khach.             ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 6: Tro ve menu chinh.               ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 7: Thoat chuong trinh.              ="<<endl; 
-	cout<<setw(135)<<"=========================================================="<<endl; 
+	cout<<setw(120)<<"=========================================================="<<endl; 
+	cout<<setw(120)<<"=               Nhap 1: Nhap DS khach hang.              ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 2: Chinh sua khach hang.            ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 3: Xuat DS khach hang.              ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 4: Ghi file khach hang.             ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 5: Hoa don cua 1 khach.             ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 6: Tro ve menu chinh.               ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 7: Thoat chuong trinh.              ="<<endl; 
+	cout<<setw(120)<<"=========================================================="<<endl; 
 	fflush(stdin);
 	cout<<setw(92)<<"Nhap lua chon: ";
 	while (1) {
@@ -984,7 +988,7 @@ void menu1() {
 			cin>>n;
 			ktraSoLuong(n);
 			for(int j=0;j<n;j++) {
-				cout<<"\n\t\t\t\t\t\tKHACH HANG THU "<<++i<<":"<<endl;
+				cout<<"\n\t\t\t\t\t\t\t\t\t\t\t\tKHACH HANG THU "<<++i<<":"<<endl;
 				Node *p=Taonode1();
 				Themcuoi1(l,p);
 			}
@@ -1010,7 +1014,7 @@ void menu1() {
 		}
 		else {
 			cout<<endl;
-			cout<<setw(136)<<"Lua chon khong hop le.Vui long chon lai!";
+			cout<<setw(136)<<"\n\t\t\t\t\t\t\tLua chon khong hop le.Vui long chon lai!";
 		}
 	}
 }
@@ -1021,17 +1025,17 @@ void menu2() {
 	SList2 sl;
 	SList2rong(sl);
     cout<<endl;
-	cout<<setw(135)<<"=========================================================="<<endl; 
-	cout<<setw(135)<<"=               Nhap 1: Nhap DS nhan vien.               ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 2: Chinh sua nhan vien.             ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 3: Xuat DS nhan vien.               ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 4: Ghi file nhan vien.              ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 5: Tim kiem nhan vien.              ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 6: Xuat luong nhan vien.            ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 7: Luong nhan vien cao nhat.        ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 8: Tro ve menu chinh.               ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 9: Thoat chuong trinh.              ="<<endl; 
-	cout<<setw(135)<<"=========================================================="<<endl; 
+	cout<<setw(120)<<"=========================================================="<<endl; 
+	cout<<setw(120)<<"=               Nhap 1: Nhap DS nhan vien.               ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 2: Chinh sua nhan vien.             ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 3: Xuat DS nhan vien.               ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 4: Ghi file nhan vien.              ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 5: Tim kiem nhan vien.              ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 6: Xuat luong nhan vien.            ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 7: Luong nhan vien cao nhat.        ="<<endl;  
+	cout<<setw(120)<<"=               Nhap 8: Tro ve menu chinh.               ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 9: Thoat chuong trinh.              ="<<endl; 
+	cout<<setw(120)<<"=========================================================="<<endl; 
 	cout<<setw(92)<<"Nhap lua chon: ";
 	while (1) {
 		cout<<endl<<setw(93)<<"Nhap chuc nang: ";
@@ -1066,6 +1070,7 @@ void menu2() {
 		else if(luachon==7) {
 			MaxLuong(sl);
 		}
+	
 		else if(luachon==8) {
 			system("cls");
 			menuChung();
@@ -1075,7 +1080,7 @@ void menu2() {
 		}
 		else {
 			cout<<endl;
-			cout<<setw(136)<<"Lua chon khong hop le. Vui long chon lai!";
+			cout<<setw(136)<<"\n\t\t\t\t\t\t\tLua chon khong hop le. Vui long chon lai!";
 		}
 	}
 }
@@ -1086,15 +1091,15 @@ void menu3() {
 	SList3 l;
 	KhoiTaoListRong(l);
     cout<<endl;
-	cout<<setw(135)<<"=========================================================="<<endl; 
-	cout<<setw(135)<<"=               Nhap 1: Nhap DS nguyen lieu.             ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 2: Chinh sua nguyen lieu.           ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 3: Xuat DS nguyen lieu.             ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 4: Ghi file nguyen lieu.            ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 5: Tong tien nguyen lieu.           ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 6: Tro ve menu chinh.               ="<<endl; 
-	cout<<setw(135)<<"=               Nhap 7: Thoat chuong trinh.              ="<<endl; 
-	cout<<setw(135)<<"=========================================================="<<endl; 
+	cout<<setw(120)<<"=========================================================="<<endl; 
+	cout<<setw(120)<<"=               Nhap 1: Nhap DS nguyen lieu.             ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 2: Chinh sua nguyen lieu.           ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 3: Xuat DS nguyen lieu.             ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 4: Ghi file nguyen lieu.            ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 5: Tong tien nguyen lieu.           ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 6: Tro ve menu chinh.               ="<<endl; 
+	cout<<setw(120)<<"=               Nhap 7: Thoat chuong trinh.              ="<<endl; 
+	cout<<setw(120)<<"=========================================================="<<endl; 
 
 	cout<<setw(92)<<"Nhap lua chon: ";
 	while (1) {
@@ -1133,12 +1138,12 @@ void menu3() {
 		}
 		else {
 			cout<<endl;
-			cout<<setw(136)<<"Lua chon khong hop le. Vui long chon lai!";
+			cout<<setw(136)<<"\n\t\t\t\t\t\t\t\t\t\t\t\tLua chon khong hop le. Vui long chon lai!";
 		}
 	}
 }
 
 int main() {
 	system("color b0"); //thiet lap mau nen va mau chu //a-s:nen //0-7:mau chu
-	menuChung();   
+	menuChung();
 }
